@@ -28,6 +28,7 @@ public class UserController {
         log.info("GET /users");
         return userService.getAll();
     }
+
     @PostMapping
     public User save(@Valid @RequestBody User user) {
         log.info("POST /users");
@@ -42,6 +43,7 @@ public class UserController {
         }
         return newUser;
     }
+
     @GetMapping("/{userId}")
     public User getById(@PathVariable Long userId) {
         log.info("GET /users/{}", userId);
