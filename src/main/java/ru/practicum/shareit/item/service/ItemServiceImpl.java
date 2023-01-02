@@ -48,8 +48,7 @@ public class ItemServiceImpl implements ItemService {
                 oldItem.setAvailable(newItem.isAvailable());
             itemRepository.update(oldItem);
             return oldItem;
-        }
-        else
+        } else
             return null;
     }
 

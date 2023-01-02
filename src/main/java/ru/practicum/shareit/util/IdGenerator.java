@@ -9,8 +9,7 @@ public class IdGenerator {
             return itemId++;
         else if ("user".equals(type)) {
             return userId++;
-        }
-        else
+        } else
             return -1L;
     }
 }
