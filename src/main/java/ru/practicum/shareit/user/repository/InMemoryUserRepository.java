@@ -6,6 +6,7 @@ import ru.practicum.shareit.util.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class InMemoryUserRepository implements UserRepository {
@@ -32,7 +33,7 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public User getById(Long id) {
         return users.stream()
-                .filter(nextUser -> nextUser.getId() == id)
+                .filter(nextUser -> Objects.equals(nextUser.getId(), id))
                 .findFirst()
                 .orElse(null);
     }
@@ -40,7 +41,7 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public User update(User user, Long userId) {
         User oldUser = users.stream()
-                .filter(nextUser -> nextUser.getId() == userId)
+                .filter(nextUser -> Objects.equals(nextUser.getId(), userId))
                 .findFirst()
                 .orElse(null);
         boolean isNonUnique = users.stream()
@@ -61,11 +62,8 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public void delete(Long id) {
-        User userToDelete = users.stream()
-                .filter(nextUser -> nextUser.getId() == id)
-                .findFirst()
-                .orElse(null);
-        if (userToDelete != null)
-            users.remove(userToDelete);
+        users.stream()
+                .filter(nextUser -> Objects.equals(nextUser.getId(), id))
+                .findFirst().ifPresent(userToDelete -> users.remove(userToDelete));
     }
 }

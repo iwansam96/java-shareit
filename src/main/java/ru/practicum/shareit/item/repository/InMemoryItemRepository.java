@@ -6,6 +6,7 @@ import ru.practicum.shareit.util.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class InMemoryItemRepository implements ItemRepository {
@@ -30,7 +31,7 @@ public class InMemoryItemRepository implements ItemRepository {
     @Override
     public Item getById(Long itemId) {
         return items.stream()
-                .filter(nextItem -> nextItem.getId() == itemId)
+                .filter(nextItem -> Objects.equals(nextItem.getId(), itemId))
                 .findFirst()
                 .orElse(null);
     }
@@ -39,7 +40,7 @@ public class InMemoryItemRepository implements ItemRepository {
     public List<Item> getByOwnerId(Long userId) {
         List<Item> itemsByOwnerId = new ArrayList<>();
         for (Item item : items) {
-            if (item.getOwner().getId() == userId)
+            if (Objects.equals(item.getOwner().getId(), userId))
                 itemsByOwnerId.add(item);
         }
         return itemsByOwnerId;

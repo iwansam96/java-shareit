@@ -10,6 +10,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -37,7 +38,7 @@ public class ItemServiceImpl implements ItemService {
     public Item edit(Long userId, Long itemId, ItemDto itemDto) {
         Item oldItem = itemRepository.getById(itemId);
         if (oldItem != null) {
-            if (oldItem.getOwner().getId() != userId)
+            if (!Objects.equals(oldItem.getOwner().getId(), userId))
                 return null;
             Item newItem = ItemMapper.toItem(itemDto);
             if (newItem.getName() != null)
