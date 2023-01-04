@@ -11,6 +11,8 @@ public interface UserRepository {
 
     User getById(Long id);
 
+    User getByEmail(String email);
+
     User update(User user, Long userId);
 
     void delete(Long id);

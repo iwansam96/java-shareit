@@ -28,8 +28,4 @@ public class Item {
     private User owner;
 
     private ItemRequest request;
-
-    public Boolean isAvailable() {
-        return available;
-    }
 }

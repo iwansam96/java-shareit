@@ -3,6 +3,7 @@ package ru.practicum.shareit.user.repository;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.util.IdGenerator;
+import ru.practicum.shareit.util.IdType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 @Repository
 public class InMemoryUserRepository implements UserRepository {
-    List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     @Override
     public List<User> getAll() {
@@ -19,13 +20,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        User userWithSameEmail = users.stream()
-                .filter(nextUser -> nextUser.getEmail().equals(user.getEmail()))
-                .findAny()
-                .orElse(null);
-        if (userWithSameEmail != null)
-            return null;
-        user.setId(IdGenerator.generateId("user"));
+        user.setId(IdGenerator.generateId(IdType.USER));
         users.add(user);
         return user;
     }
@@ -39,24 +34,17 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public User update(User user, Long userId) {
-        User oldUser = users.stream()
-                .filter(nextUser -> Objects.equals(nextUser.getId(), userId))
-                .findFirst()
+    public User getByEmail(String email) {
+        return users.stream()
+                .filter(nextUser -> nextUser.getEmail().equals(email))
+                .findAny()
                 .orElse(null);
-        boolean isNonUnique = users.stream()
-                .anyMatch(nextUser -> nextUser.getEmail().equals(user.getEmail()));
-        if (isNonUnique)
-            return null;
-        if (oldUser != null) {
-            user.setId(userId);
-            if (user.getName() == null)
-                user.setName(oldUser.getName());
-            if (user.getEmail() == null)
-                user.setEmail(oldUser.getEmail());
-            users.remove(oldUser);
-            users.add(user);
-        }
+    }
+
+    @Override
+    public User update(User user, Long userId) {
+        delete(userId);
+        users.add(user);
         return user;
     }
 

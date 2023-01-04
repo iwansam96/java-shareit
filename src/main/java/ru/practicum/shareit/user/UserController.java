@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.exception.IncorrectUserDataException;
+import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.exception.UserWithSameEmailException;
 import ru.practicum.shareit.user.service.UserService;
 
 import javax.validation.Valid;
@@ -24,54 +26,60 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
         log.info("GET /users");
         return userService.getAll();
     }
 
     @PostMapping
-    public User save(@Valid @RequestBody User user) {
+    public UserDto save(@Valid @RequestBody UserDto user) {
         log.info("POST /users");
         if (user == null) {
             log.error("user is null");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        User newUser = userService.save(user);
-        if (newUser == null) {
-            log.error("user with the same email already exists");
+        try {
+            return userService.save(user);
+        } catch (IncorrectUserDataException e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        } catch (UserWithSameEmailException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
-        return newUser;
     }
 
     @GetMapping("/{userId}")
-    public User getById(@PathVariable Long userId) {
+    public UserDto getById(@PathVariable Long userId) {
         log.info("GET /users/{}", userId);
         if (userId == null) {
             log.error("userId is null");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        User userById = userService.getById(userId);
-        if (userById == null) {
-            log.error("userId not found");
+        try {
+            return userService.getById(userId);
+        } catch (UserNotFoundException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return userById;
     }
 
     @PatchMapping("/{userId}")
-    public User update(@Valid @RequestBody UserDto userDto, @PathVariable Long userId) {
+    public UserDto update(@Valid @RequestBody UserDto userDto, @PathVariable Long userId) {
         log.info("PATCH /users");
         if (userDto == null) {
             log.error("userDto is null");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        User updatedUser = userService.update(userDto, userId);
-        if (updatedUser == null) {
-            log.error("updatedUser is null");
+        try {
+            return userService.update(userDto, userId);
+        } catch (UserWithSameEmailException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.CONFLICT);
+        } catch (UserNotFoundException e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return updatedUser;
     }
 
     @DeleteMapping("/{userId}")
