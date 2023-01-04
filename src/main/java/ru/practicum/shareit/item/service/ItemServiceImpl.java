@@ -32,7 +32,7 @@ public class ItemServiceImpl implements ItemService {
                 itemDto.getName() == null || itemDto.getName().isBlank() ||
                 itemDto.getDescription() == null || itemDto.getDescription().isBlank())
             throw new IncorrectItemDataException("available, name or description cannot be empty");
-        Item item = ItemMapper.toItem(itemDto);
+        Item item = ItemMapper .toItem(itemDto);
         User owner = userRepository.getById(userId);
         if (owner == null)
             throw new UserNotFoundException("user with id " + userId + " not found");
