@@ -31,9 +31,9 @@ public class ItemServiceImpl implements ItemService {
         boolean isAvailableNull = itemDto.getAvailable() == null;
         boolean isNameIncorrect = itemDto.getName() == null || itemDto.getName().isBlank();
         boolean isDescriptionIncorrect = itemDto.getDescription() == null || itemDto.getDescription().isBlank();
-//        if (isAvailableNull || isNameIncorrect || isDescriptionIncorrect) {
-//            throw new IncorrectItemDataException("available, name or description cannot be empty");
-//        }
+        if (isAvailableNull || isNameIncorrect || isDescriptionIncorrect) {
+            throw new IncorrectItemDataException("available, name or description cannot be empty");
+        }
         User owner = userRepository.getById(userId);
         Item item = ItemMapper.toItem(itemDto);
         if (owner == null)
