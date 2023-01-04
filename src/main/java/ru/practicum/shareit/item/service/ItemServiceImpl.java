@@ -28,9 +28,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto add(Long userId, ItemDto itemDto) throws IncorrectItemDataException, UserNotFoundException {
-        if (itemDto.getAvailable() == null ||
-                itemDto.getName() == null || itemDto.getName().isBlank() ||
-                itemDto.getDescription() == null || itemDto.getDescription().isBlank()) {
+        boolean isAvailableNull = itemDto.getAvailable() == null;
+        boolean isNameIncorrect = itemDto.getName() == null || itemDto.getName().isBlank();
+        boolean isDescriptionIncorrect = itemDto.getDescription() == null || itemDto.getDescription().isBlank();
+        if (isAvailableNull || isNameIncorrect || isDescriptionIncorrect) {
             throw new IncorrectItemDataException("available, name or description cannot be empty");
         }
         User owner = userRepository.getById(userId);
