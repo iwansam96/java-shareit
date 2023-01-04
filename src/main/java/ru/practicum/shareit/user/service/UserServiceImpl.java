@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto save(UserDto userDto) throws IncorrectUserDataException, UserWithSameEmailException {
         User user = UserMapper.toUser(userDto);
-        if (user .getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank())
+        if (user.getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank())
             throw new IncorrectUserDataException("user name is incorrect");
         User userWithSameEmail = userRepository.getByEmail(user.getEmail());
         if (userWithSameEmail != null)
