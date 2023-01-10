@@ -34,9 +34,6 @@ public class UserServiceImpl implements UserService {
         User user = UserMapper.toUser(userDto);
         if (user.getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank())
             throw new IncorrectUserDataException("user name is incorrect");
-        User userWithSameEmail = userRepository.getByEmail(user.getEmail());
-        if (userWithSameEmail != null)
-            throw new UserWithSameEmailException("email is not unique");
         User newUser = userRepository.save(user);
         return UserMapper.toUserDto(newUser);
     }
