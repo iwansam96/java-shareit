@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAll() {
-        return userRepository.getAll().stream()
+        return userRepository.findAll().stream()
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
     }
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) throws UserNotFoundException {
-        User user = userRepository.getById(id);
+        User user = userRepository.findById(id).orElse(null);
         if (user == null) {
             throw new UserNotFoundException("user with id " + id + "not found");
         }
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto userDto, Long userId) throws UserWithSameEmailException, UserNotFoundException {
-        User oldUser = userRepository.getById(userId);
+        User oldUser = userRepository.findById(userId).orElse(null);
         User newUser = UserMapper.toUser(userDto);
         if (oldUser == null)
             throw new UserNotFoundException("user with id " + userId + " not found");
@@ -67,12 +67,12 @@ public class UserServiceImpl implements UserService {
             newUser.setName(oldUser.getName());
         if (newUser.getEmail() == null)
             newUser.setEmail(oldUser.getEmail());
-        User updatedUser = userRepository.update(newUser, userId);
+        User updatedUser = userRepository.save(newUser);
         return UserMapper.toUserDto(updatedUser);
     }
 
     @Override
     public void delete(Long id) {
-        userRepository.delete(id);
+        userRepository.delete(userRepository.findById(id).get());
     }
 }

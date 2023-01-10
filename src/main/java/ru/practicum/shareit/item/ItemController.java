@@ -11,8 +11,10 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.exception.IncorrectItemDataException;
 import ru.practicum.shareit.item.service.ItemService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,7 +40,7 @@ public class ItemController {
         } catch (IncorrectItemDataException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        } catch (UserNotFoundException e) {
+        } catch (UserNotFoundException | EntityNotFoundException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -94,9 +96,10 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> search(@RequestParam String text) {
         log.info("GET /items/search?text={}", text);
-        if (text == null) {
+        if (text == null || text.isBlank()) {
             log.error("search string is null");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            return new ArrayList<>();
         }
         List<ItemDto> foundedItems = itemService.search(text.toLowerCase());
         if (foundedItems == null) {

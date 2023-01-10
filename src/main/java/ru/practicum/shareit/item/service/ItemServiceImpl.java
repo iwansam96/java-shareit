@@ -34,18 +34,20 @@ public class ItemServiceImpl implements ItemService {
         if (isAvailableNull || isNameIncorrect || isDescriptionIncorrect) {
             throw new IncorrectItemDataException("available, name or description cannot be empty");
         }
-        User owner = userRepository.getById(userId);
+
+        User owner = userRepository.findById(userId).orElse(null);
         Item item = ItemMapper.toItem(itemDto);
         if (owner == null)
             throw new UserNotFoundException("user with id " + userId + " not found");
         item.setOwner(owner);
-        itemRepository.add(item);
+
+        itemRepository.save(item);
         return ItemMapper.toItemDto(item);
     }
 
     @Override
     public ItemDto edit(Long userId, Long itemId, ItemDto itemDto) {
-        Item oldItem = itemRepository.getById(itemId);
+        Item oldItem = itemRepository.findById(itemId).orElse(null);
         if (oldItem != null) {
             if (!Objects.equals(oldItem.getOwner().getId(), userId))
                 return null;
@@ -56,7 +58,7 @@ public class ItemServiceImpl implements ItemService {
                 oldItem.setDescription(newItem.getDescription());
             if (newItem.getAvailable() != null)
                 oldItem.setAvailable(newItem.getAvailable());
-            itemRepository.update(oldItem);
+            itemRepository.save(oldItem);
             return ItemMapper.toItemDto(oldItem);
         } else
             return null;
@@ -64,13 +66,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto getById(Long itemId) {
-        Item item = itemRepository.getById(itemId);
+        Item item = itemRepository.findById(itemId).orElse(null);
         return ItemMapper.toItemDto(item);
     }
 
     @Override
     public List<ItemDto> getByOwnerId(Long userId) {
-        return itemRepository.getByOwnerId(userId).stream()
+        return itemRepository.findByOwnerId(userId).stream()
                 .map(ItemMapper::toItemDto)
                 .collect(Collectors.toList());
     }

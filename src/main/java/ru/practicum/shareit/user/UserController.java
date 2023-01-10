@@ -11,6 +11,7 @@ import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.exception.UserWithSameEmailException;
 import ru.practicum.shareit.user.service.UserService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class UserController {
         }
         try {
             return userService.getById(userId);
-        } catch (UserNotFoundException e) {
+        } catch (UserNotFoundException | EntityNotFoundException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -76,7 +77,7 @@ public class UserController {
         } catch (UserWithSameEmailException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.CONFLICT);
-        } catch (UserNotFoundException e) {
+        } catch (UserNotFoundException | EntityNotFoundException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
