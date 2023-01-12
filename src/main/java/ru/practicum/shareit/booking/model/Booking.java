@@ -1,12 +1,13 @@
-package ru.practicum.shareit.booking;
+package ru.practicum.shareit.booking.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -22,10 +23,10 @@ public class Booking {
     private Long id;
 
     @Column(name = "booking_start")
-    private Date start;
+    private LocalDateTime start;
 
     @Column(name = "booking_end")
-    private Date end;
+    private LocalDateTime end;
 
     @ManyToOne
     @JoinColumn(name = "item", referencedColumnName = "item_id")

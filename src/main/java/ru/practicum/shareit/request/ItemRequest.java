@@ -5,7 +5,7 @@ import org.hibernate.Hibernate;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -28,7 +28,7 @@ public class ItemRequest {
     private User requestor;
 
     @Column(name = "request_created")
-    private Date created;
+    private LocalDateTime created;
 
     @Override
     public boolean equals(Object o) {

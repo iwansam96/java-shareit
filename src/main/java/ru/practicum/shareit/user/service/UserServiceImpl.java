@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserMapper;
-import ru.practicum.shareit.exception.IncorrectUserDataException;
+import ru.practicum.shareit.exception.UserDataIsIncorrectException;
 import ru.practicum.shareit.exception.UserNotFoundException;
-import ru.practicum.shareit.exception.UserWithSameEmailException;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
@@ -30,10 +29,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto save(UserDto userDto) throws IncorrectUserDataException, UserWithSameEmailException {
+    public UserDto save(UserDto userDto) throws UserDataIsIncorrectException {
         User user = UserMapper.toUser(userDto);
         if (user.getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank())
-            throw new IncorrectUserDataException("user name is incorrect");
+            throw new UserDataIsIncorrectException("user name is incorrect");
         User newUser = userRepository.save(user);
         return UserMapper.toUserDto(newUser);
     }
@@ -48,17 +47,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(UserDto userDto, Long userId) throws UserWithSameEmailException, UserNotFoundException {
+    public UserDto update(UserDto userDto, Long userId) throws UserNotFoundException {
         User oldUser = userRepository.findById(userId).orElse(null);
         User newUser = UserMapper.toUser(userDto);
         if (oldUser == null)
             throw new UserNotFoundException("user with id " + userId + " not found");
-        boolean isEmailUpdating = !oldUser.getEmail().equals(newUser.getEmail());
-        if (isEmailUpdating) {
-            User userWithSameEmail = userRepository.getByEmail(newUser.getEmail());
-            if (userWithSameEmail != null)
-                throw new UserWithSameEmailException("email is not unique");
-        }
         newUser.setId(userId);
         if (newUser.getName() == null)
             newUser.setName(oldUser.getName());

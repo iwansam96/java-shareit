@@ -2,13 +2,13 @@ package ru.practicum.shareit.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.exception.IncorrectUserDataException;
+import ru.practicum.shareit.exception.UserDataIsIncorrectException;
 import ru.practicum.shareit.exception.UserNotFoundException;
-import ru.practicum.shareit.exception.UserWithSameEmailException;
 import ru.practicum.shareit.user.service.UserService;
 
 import javax.persistence.EntityNotFoundException;
@@ -41,10 +41,10 @@ public class UserController {
         }
         try {
             return userService.save(user);
-        } catch (IncorrectUserDataException e) {
+        } catch (UserDataIsIncorrectException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        } catch (UserWithSameEmailException e) {
+        } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
@@ -74,7 +74,7 @@ public class UserController {
         }
         try {
             return userService.update(userDto, userId);
-        } catch (UserWithSameEmailException e) {
+        } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         } catch (UserNotFoundException | EntityNotFoundException e) {
