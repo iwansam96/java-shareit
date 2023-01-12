@@ -46,7 +46,7 @@ public class BookingController {
 
     @PatchMapping("/{bookingId}")
     public BookingDto setApproveById(@PathVariable Long bookingId,
-                                     @RequestParam(name="approved") Boolean isApproved,
+                                     @RequestParam(name = "approved") Boolean isApproved,
                                      @Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId) {
         log.info("PATCH /bookings/{}?{}", bookingId, isApproved);
 
