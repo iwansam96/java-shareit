@@ -7,7 +7,6 @@ import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -23,15 +22,11 @@ public class Item {
     @Column(name = "item_id")
     private Long id;
 
-    @NotEmpty
     @NotBlank
-    @NotNull
     @Column(name = "item_name", nullable = false)
     private String name;
 
-    @NotEmpty
     @NotBlank
-    @NotNull
     @Column(name = "item_description", nullable = false)
     private String description;
 

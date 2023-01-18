@@ -20,7 +20,7 @@ public class ItemRequest {
     @Column(name = "request_id")
     private Long id;
 
-    @Column(name = "request_description")
+    @Column(name = "request_description", nullable = false)
     private String description;
 
     @ManyToOne

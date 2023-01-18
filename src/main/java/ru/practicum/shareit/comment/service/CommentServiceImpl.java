@@ -1,6 +1,7 @@
 package ru.practicum.shareit.comment.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
@@ -11,6 +12,7 @@ import ru.practicum.shareit.comment.dto.CommentDtoInput;
 import ru.practicum.shareit.comment.dto.CommentMapper;
 import ru.practicum.shareit.exception.CommentBeforeBookingException;
 import ru.practicum.shareit.exception.ItemNotFoundException;
+import ru.practicum.shareit.exception.ItemTextForSearchIsEmptyException;
 import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
@@ -20,26 +22,24 @@ import ru.practicum.shareit.user.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
 
+    @NonNull
     private CommentRepository commentRepository;
+
+    @NonNull
     private UserRepository userRepository;
+
+    @NonNull
     private ItemRepository itemRepository;
+
+    @NonNull
     private BookingRepository bookingRepository;
 
-    @Autowired
-    CommentServiceImpl(CommentRepository commentRepository,
-                       UserRepository userRepository,
-                       ItemRepository itemRepository,
-                       BookingRepository bookingRepository) {
-        this.commentRepository = commentRepository;
-        this.userRepository = userRepository;
-        this.itemRepository = itemRepository;
-        this.bookingRepository = bookingRepository;
-    }
 
-    public CommentDto addComment(Long userId, Long itemId, CommentDtoInput commentDtoInput) throws UserNotFoundException, ItemNotFoundException, CommentBeforeBookingException {
+    public CommentDto addComment(Long userId, Long itemId, CommentDtoInput commentDtoInput) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null)
             throw new UserNotFoundException("user with id " + userId + " not found");
@@ -51,6 +51,11 @@ public class CommentServiceImpl implements CommentService {
         List<Booking> bookings = bookingRepository.getBookingsByBooker_IdAndEndBefore(userId, LocalDateTime.now());
         if (bookings.size() < 1)
             throw new CommentBeforeBookingException("user " + userId + " can't comment before booking");
+
+
+        if (commentDtoInput == null || commentDtoInput.getText() == null || commentDtoInput.getText().isBlank()) {
+            throw new ItemTextForSearchIsEmptyException("text for comment is empty");
+        }
 
         Comment comment = new Comment();
         comment.setText(commentDtoInput.getText());

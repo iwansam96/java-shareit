@@ -6,15 +6,16 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.item.model.Item;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
 public class ItemMapper {
-    public static ItemDto toItemDto(Item item, Set<Booking> bookings, Long userId, List<CommentDto> comments) {
-        if (item == null)
-            return null;
-        ItemDto itemDto =  new ItemDto();
+    public static ItemDto toItemDto(@Valid @NotNull Item item, @Valid @NotNull Set<Booking> bookings,
+                                    @Valid @NotNull Long userId, @Valid @NotNull List<CommentDto> comments) {
+        ItemDto itemDto = new ItemDto();
         itemDto.setId(item.getId());
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
@@ -38,9 +39,7 @@ public class ItemMapper {
         return itemDto;
     }
 
-    public static Item toItem(ItemDto itemDto) {
-        if (itemDto == null)
-            return null;
+    public static Item toItem(@Valid @NotNull ItemDto itemDto) {
         Item item = new Item();
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());

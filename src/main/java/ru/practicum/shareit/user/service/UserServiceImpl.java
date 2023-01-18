@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserMapper;
@@ -12,14 +13,11 @@ import ru.practicum.shareit.user.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
+    @NonNull
     private UserRepository userRepository;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public List<UserDto> getAll() {
@@ -29,7 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto save(UserDto userDto) throws UserDataIsIncorrectException {
+    public UserDto save(UserDto userDto) {
         User user = UserMapper.toUser(userDto);
         if (user.getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank())
             throw new UserDataIsIncorrectException("user name is incorrect");
@@ -38,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getById(Long id) throws UserNotFoundException {
+    public UserDto getById(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) {
             throw new UserNotFoundException("user with id " + id + "not found");
@@ -47,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(UserDto userDto, Long userId) throws UserNotFoundException {
+    public UserDto update(UserDto userDto, Long userId) {
         User oldUser = userRepository.findById(userId).orElse(null);
         User newUser = UserMapper.toUser(userDto);
         if (oldUser == null)
@@ -63,6 +61,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-        userRepository.delete(userRepository.findById(id).get());
+        User userToDelete = userRepository.findById(id).orElse(null);
+        if (userToDelete == null)
+            throw new UserNotFoundException("user " + id + " not found");
+        userRepository.delete(userToDelete);
     }
 }

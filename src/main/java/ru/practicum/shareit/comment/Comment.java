@@ -25,17 +25,17 @@ public class Comment {
     private Long id;
 
     @NotNull
-    @Column(name = "comment_text")
+    @Column(name = "comment_text", nullable = false)
     private String text;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "comment_item", referencedColumnName = "item_id")
+    @JoinColumn(name = "comment_item", referencedColumnName = "item_id", nullable = false)
     private Item item;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "comment_author", referencedColumnName = "user_id")
+    @JoinColumn(name = "comment_author", referencedColumnName = "user_id", nullable = false)
     private User author;
 
     @CreationTimestamp

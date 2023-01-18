@@ -1,10 +1,13 @@
 package ru.practicum.shareit.item.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.comment.CommentRepository;
 import ru.practicum.shareit.comment.dto.CommentMapper;
+import ru.practicum.shareit.exception.ItemEditingByNonOwnerException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
@@ -14,31 +17,29 @@ import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ItemServiceImpl implements ItemService {
+    @NonNull
     private ItemRepository itemRepository;
+
+    @NonNull
     private UserRepository userRepository;
+
+    @NonNull
     private BookingRepository bookingRepository;
+
+    @NonNull
     private CommentRepository commentRepository;
 
-    @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository,
-                           UserRepository userRepository,
-                           BookingRepository bookingRepository,
-                           CommentRepository commentRepository) {
-        this.itemRepository = itemRepository;
-        this.userRepository = userRepository;
-        this.bookingRepository = bookingRepository;
-        this.commentRepository = commentRepository;
-    }
-
     @Override
-    public ItemDto add(Long userId, ItemDto itemDto) throws ItemDataIsIncorrectException, UserNotFoundException {
+    public ItemDto add(Long userId, ItemDto itemDto) {
         boolean isAvailableNull = itemDto.getAvailable() == null;
         boolean isNameIncorrect = itemDto.getName() == null || itemDto.getName().isBlank();
         boolean isDescriptionIncorrect = itemDto.getDescription() == null || itemDto.getDescription().isBlank();
@@ -64,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
         Item oldItem = itemRepository.findById(itemId).orElse(null);
         if (oldItem != null) {
             if (!Objects.equals(oldItem.getOwner().getId(), userId))
-                return null;
+                throw new ItemEditingByNonOwnerException("user " + userId + " cannot edit item " + itemId);
             Item newItem = ItemMapper.toItem(itemDto);
             if (newItem.getName() != null)
                 oldItem.setName(newItem.getName());
@@ -79,14 +80,14 @@ public class ItemServiceImpl implements ItemService {
                             .map(CommentMapper::toCommentDto)
                             .collect(Collectors.toList()));
         } else
-            return null;
+            throw new ItemNotFoundException("item " + itemId + " not found");
     }
 
     @Override
     public ItemDto getById(Long itemId, Long userId) {
         Item item = itemRepository.findById(itemId).orElse(null);
         if (item == null)
-            return null;
+            throw new ItemNotFoundException("item with id " + itemId + " not found");
 
         return ItemMapper.toItemDto(item, bookingRepository.getBookingsByItem_Id(itemId), userId,
                 commentRepository.getCommentsByItem_Id(itemId).stream()
@@ -108,7 +109,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> search(String text) {
-        return itemRepository.search(text).stream()
+        if (text == null || text.isBlank()) {
+            return new ArrayList<>();
+        }
+        return itemRepository.search(text.toLowerCase()).stream()
                 .map(nextItem -> ItemMapper.toItemDto(nextItem,
                         bookingRepository.getBookingsByItem_Id(nextItem.getId()),
                         null, commentRepository.getCommentsByItem_Id(nextItem.getId()).stream()

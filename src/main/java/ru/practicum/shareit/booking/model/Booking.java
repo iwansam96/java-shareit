@@ -22,22 +22,22 @@ public class Booking {
     @Column(name = "booking_id")
     private Long id;
 
-    @Column(name = "booking_start")
+    @Column(name = "booking_start", nullable = false)
     private LocalDateTime start;
 
-    @Column(name = "booking_end")
+    @Column(name = "booking_end", nullable = false)
     private LocalDateTime end;
 
     @ManyToOne
-    @JoinColumn(name = "item", referencedColumnName = "item_id")
+    @JoinColumn(name = "item", referencedColumnName = "item_id", nullable = false)
     private Item item;
 
     @ManyToOne
-    @JoinColumn(name = "booker", referencedColumnName = "user_id")
+    @JoinColumn(name = "booker", referencedColumnName = "user_id", nullable = false)
     private User booker;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "booking_status")
+    @Column(name = "booking_status", nullable = false)
     private BookingStatus status;
 
     @Override
