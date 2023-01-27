@@ -1,108 +1,72 @@
 package ru.practicum.shareit.item;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.comment.dto.CommentDto;
+import ru.practicum.shareit.comment.dto.CommentDtoInput;
+import ru.practicum.shareit.comment.service.CommentService;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.exception.IncorrectItemDataException;
 import ru.practicum.shareit.item.service.ItemService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/items")
 public class ItemController {
     private static final Logger log = LoggerFactory.getLogger(ItemController.class);
+
+    @NonNull
     private ItemService itemService;
 
-    @Autowired
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
+    @NonNull
+    private CommentService commentService;
 
     @PostMapping
-    public ItemDto add(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId, @Valid @RequestBody ItemDto itemDto) {
+    public ItemDto add(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId,
+                       @Valid @RequestBody ItemDto itemDto) {
         log.info("POST /items");
-        if (userId == null || itemDto == null) {
-            log.error("userId or item is null");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        try {
-            return itemService.add(userId, itemDto);
-        } catch (IncorrectItemDataException e) {
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        } catch (UserNotFoundException e) {
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        return itemService.add(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto edit(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId,
-                     @RequestBody ItemDto itemDto,
-                     @PathVariable Long itemId) {
+                        @Valid @NotNull @RequestBody ItemDto itemDto,
+                        @Valid @NotNull @PathVariable Long itemId) {
         log.info("PATCH /items");
-        if (userId == null || itemId == null) {
-            log.error("userId or item is null");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        ItemDto editedItem = itemService.edit(userId, itemId, itemDto);
-        if (editedItem == null) {
-            log.error("you are not owner or item not found");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return editedItem;
+        return itemService.edit(userId, itemId, itemDto);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getById(@PathVariable Long itemId) {
+    public ItemDto getById(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId,
+                           @PathVariable @Valid @NotNull Long itemId) {
         log.info("GET /items/{}", itemId);
-        if (itemId == null) {
-            log.error("item is null");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        ItemDto item = itemService.getById(itemId);
-        if (item == null) {
-            log.error("item not found");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return item;
+        return itemService.getById(itemId, userId);
     }
 
     @GetMapping
     public List<ItemDto> getByOwnerId(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId) {
         log.info("GET /items");
-        if (userId == null) {
-            log.error("userId is null");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        List<ItemDto> usersItems = itemService.getByOwnerId(userId);
-        if (usersItems == null) {
-            log.error("items not found or error in ItemRepository");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return usersItems;
+        return itemService.getByOwnerId(userId);
     }
 
     @GetMapping("/search")
     public List<ItemDto> search(@RequestParam String text) {
         log.info("GET /items/search?text={}", text);
-        if (text == null) {
-            log.error("search string is null");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        List<ItemDto> foundedItems = itemService.search(text.toLowerCase());
-        if (foundedItems == null) {
-            log.error("items not found or error in ItemRepository");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return foundedItems;
+        return itemService.search(text);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId,
+                                 @PathVariable Long itemId,
+                                 @RequestBody CommentDtoInput commentDtoInput) {
+        log.info("POST /items/{}/comment", itemId);
+
+        return commentService.addComment(userId, itemId, commentDtoInput);
     }
 }

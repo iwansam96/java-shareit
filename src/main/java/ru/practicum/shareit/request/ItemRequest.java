@@ -1,14 +1,45 @@
 package ru.practicum.shareit.request;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 import ru.practicum.shareit.user.model.User;
 
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@Entity
+@Table(name = "requests", schema = "public")
 public class ItemRequest {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "request_id")
     private Long id;
+
+    @Column(name = "request_description", nullable = false)
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "requestor", referencedColumnName = "user_id")
     private User requestor;
-    private Date created;
+
+    @Column(name = "request_created")
+    private LocalDateTime created;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        ItemRequest that = (ItemRequest) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
