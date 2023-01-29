@@ -50,15 +50,18 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getByOwnerId(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemDto> getByOwnerId(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId,
+                                      @RequestParam(defaultValue = "0") Integer from,
+                                      @RequestParam(defaultValue = "10") Integer size) {
         log.info("GET /items");
-        return itemService.getByOwnerId(userId);
+        return itemService.getByOwnerId(userId, from, size);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> search(@RequestParam String text) {
+    public List<ItemDto> search(@RequestParam String text, @RequestParam(defaultValue = "0") Integer from,
+                                @RequestParam(defaultValue = "10") Integer size) {
         log.info("GET /items/search?text={}", text);
-        return itemService.search(text);
+        return itemService.search(text, from, size);
     }
 
     @PostMapping("/{itemId}/comment")

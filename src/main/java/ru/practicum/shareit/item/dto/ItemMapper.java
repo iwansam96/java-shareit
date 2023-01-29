@@ -20,9 +20,11 @@ public class ItemMapper {
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
         itemDto.setAvailable(item.getAvailable());
-        itemDto.setRequest(item.getRequest() != null ? item.getRequest().getId() : null);
+        itemDto.setRequestId(item.getRequest() != null ? item.getRequest().getId() : null);
         itemDto.setBookings(bookings);
         itemDto.setComments(comments);
+        if (item.getOwner() != null)
+            itemDto.setOwner(item.getOwner());
 
         if (Objects.equals(item.getOwner().getId(), userId)) {
             Optional<Booking> last = bookings.stream()
@@ -44,6 +46,8 @@ public class ItemMapper {
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());
         item.setAvailable(itemDto.getAvailable());
+        if (itemDto.getOwner() != null)
+            item.setOwner(itemDto.getOwner());
         return item;
     }
 }

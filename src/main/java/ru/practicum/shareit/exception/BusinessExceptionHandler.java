@@ -116,4 +116,23 @@ public class BusinessExceptionHandler {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({ ItemRequestNotFoundException.class })
+    public ResponseEntity<Object> handleItemRequestNotFoundException(ItemRequestNotFoundException e) {
+        log.error(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({ ItemRequestDescriptionIsInvalidException.class })
+    public ResponseEntity<Object> handleItemRequestDescriotnionIsInvalidException(
+            ItemRequestDescriptionIsInvalidException e) {
+        log.error(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler({ PaginationParametersAreIncorrectException.class })
+    public ResponseEntity<Object> handleItemRequestPaginationParametersAreIncorrectException(
+            PaginationParametersAreIncorrectException e) {
+        log.error(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }

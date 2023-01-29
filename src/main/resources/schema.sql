@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS items (
     item_description VARCHAR(512) NOT NULL,
     item_available boolean NOT NULL,
     item_owner BIGINT REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    item_request BIGINT REFERENCES requests (request_id) ON DELETE CASCADE ON UPDATE CASCADE
+    item_request BIGINT REFERENCES requests (request_id) ON UPDATE CASCADE
     );
 
 CREATE TABLE IF NOT EXISTS booking_statuses (

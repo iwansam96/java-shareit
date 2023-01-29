@@ -28,9 +28,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto userDto) {
+        if (userDto == null)
+            throw new UserDataIsIncorrectException("user data is incorrect");
         User user = UserMapper.toUser(userDto);
-        if (user.getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank())
-            throw new UserDataIsIncorrectException("user name is incorrect");
+        if (user.getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank()) {
+            throw new UserDataIsIncorrectException("user data is incorrect");
+        }
         User newUser = userRepository.save(user);
         return UserMapper.toUserDto(newUser);
     }
@@ -39,13 +42,15 @@ public class UserServiceImpl implements UserService {
     public UserDto getById(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) {
-            throw new UserNotFoundException("user with id " + id + "not found");
+            throw new UserNotFoundException("user with id " + id + " not found");
         }
         return UserMapper.toUserDto(user);
     }
 
     @Override
     public UserDto update(UserDto userDto, Long userId) {
+        if (userDto == null)
+            throw new UserDataIsIncorrectException("user data is incorrect");
         User oldUser = userRepository.findById(userId).orElse(null);
         User newUser = UserMapper.toUser(userDto);
         if (oldUser == null)
