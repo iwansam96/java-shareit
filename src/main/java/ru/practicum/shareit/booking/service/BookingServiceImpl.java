@@ -36,6 +36,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto add(BookingDtoInput bookingDtoInput, Long userId) {
+        if (bookingDtoInput == null)
+            throw new BookingInputDataIsIncorrectException("booking input data is incorrect");
         Item item = itemRepository.findById(bookingDtoInput.getItemId()).orElse(null);
         if (item == null) {
             throw new ItemNotFoundException("item with id " + bookingDtoInput.getItemId() + " not found");
@@ -75,7 +77,7 @@ public class BookingServiceImpl implements BookingService {
             throw new BookingApproveAfterApproveException("booking " + bookingId + " is already approved");
         }
 
-        if (isApproved)
+        if (isApproved != null && isApproved)
             booking.setStatus(BookingStatus.APPROVED);
         else
             booking.setStatus(BookingStatus.REJECTED);
@@ -124,15 +126,19 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getByItemsByUserId(Long userId, Optional<String> stateString, Integer from, Integer size) {
-        if (from == null || from < 0 || size == null || size < 0)
-            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
-        int page = from / size;
-
-        BookingState state = BookingState.stringToState(stateString);
-
         User user = userRepository.findById(userId).orElse(null);
         if (user == null)
             throw new UserNotFoundException("user with id " + userId + " not found");
+
+        if (stateString == null || stateString.isEmpty()) {
+            stateString = Optional.of("ALL");
+        }
+        BookingState state = BookingState.stringToState(stateString);
+
+        if (from == null || from < 0 || size == null || size < 0) {
+            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
+        }
+        int page = from / size;
 
         List<Booking> bookings;
         if (state == BookingState.CURRENT)

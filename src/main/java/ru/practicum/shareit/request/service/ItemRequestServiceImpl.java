@@ -36,14 +36,13 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public ItemRequestDto add(Long requestorId, ItemRequestDtoInput itemRequestDtoInput) {
-        if (itemRequestDtoInput.getDescription() == null || itemRequestDtoInput.getDescription().isBlank())
+        if (itemRequestDtoInput == null || itemRequestDtoInput.getDescription() == null || itemRequestDtoInput.getDescription().isBlank())
             throw new ItemRequestDescriptionIsInvalidException("item request description is null or blank");
 
         User requestor = UserMapper.toUser(userService.getById(requestorId));
 
         ItemRequest newItemRequest = itemRequestRepository.save(
-                ItemRequestMapper.toItemRequest(requestor, itemRequestDtoInput)
-        );
+                ItemRequestMapper.toItemRequest(requestor, itemRequestDtoInput));
 
         return ItemRequestMapper.toItemRequestDto(newItemRequest, new ArrayList<>());
     }
@@ -77,7 +76,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public ItemRequestDto getByRequestId(Long userId, Long requestId) {
-//        throws UserNotFoundException if user does not exist
         UserMapper.toUser(userService.getById(userId));
 
         ItemRequest itemRequest = itemRequestRepository.findById(requestId).orElse(null);

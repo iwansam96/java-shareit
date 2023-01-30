@@ -25,6 +25,8 @@ public class ItemMapper {
         itemDto.setComments(comments);
         if (item.getOwner() != null)
             itemDto.setOwner(item.getOwner());
+        if (item.getRequest() != null)
+            itemDto.setRequestId(item.getRequest().getId());
 
         if (Objects.equals(item.getOwner().getId(), userId)) {
             Optional<Booking> last = bookings.stream()
@@ -43,6 +45,8 @@ public class ItemMapper {
 
     public static Item toItem(@Valid @NotNull ItemDto itemDto) {
         Item item = new Item();
+        if (itemDto.getId() != null)
+            item.setId(itemDto.getId());
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());
         item.setAvailable(itemDto.getAvailable());
