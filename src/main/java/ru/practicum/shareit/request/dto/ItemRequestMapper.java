@@ -1,14 +1,11 @@
 package ru.practicum.shareit.request.dto;
 
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.ItemRequest;
-import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,6 +17,18 @@ public class ItemRequestMapper {
         itemRequest.setRequestor(requestor);
         itemRequest.setDescription(itemRequestDtoInput.getDescription());
         itemRequest.setCreated(LocalDateTime.now());
+
+        return itemRequest;
+    }
+
+    public static ItemRequest toItemRequest(@Valid @NotNull User requestor,
+                                            @Valid @NotNull ItemRequestDto itemRequestDto) {
+        ItemRequest itemRequest = new ItemRequest();
+
+        itemRequest.setRequestor(requestor);
+        itemRequest.setDescription(itemRequestDto.getDescription());
+        itemRequest.setCreated(itemRequestDto.getCreated());
+        itemRequest.setId(itemRequestDto.getId());
 
         return itemRequest;
     }

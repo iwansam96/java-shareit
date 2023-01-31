@@ -1,4 +1,4 @@
-package ru.practicum.shareit;
+package ru.practicum.shareit.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class UserServiceTest {
+public class UserServiceUnitTest {
     UserRepository userRepository;
     UserService userService;
 

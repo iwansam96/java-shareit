@@ -1,4 +1,4 @@
-package ru.practicum.shareit;
+package ru.practicum.shareit.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class CommentServiceTest {
+public class CommentServiceUnitTest {
     CommentRepository commentRepository;
     UserRepository userRepository;
     ItemRepository itemRepository;
