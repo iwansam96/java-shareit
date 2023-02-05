@@ -10,10 +10,7 @@ import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.comment.Comment;
 import ru.practicum.shareit.comment.CommentRepository;
 import ru.practicum.shareit.comment.dto.CommentMapper;
-import ru.practicum.shareit.exception.ItemDataIsIncorrectException;
-import ru.practicum.shareit.exception.ItemEditingByNonOwnerException;
-import ru.practicum.shareit.exception.ItemNotFoundException;
-import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -478,7 +475,7 @@ public class ItemServiceUnitTest {
 
 //    get by ownerId userId is incorrect
     @Test
-    public void shouldReturnEmptyListWhenGetByOwwnerIdWithIncorrectId() {
+    public void shouldReturnEmptyListWhenGetByOwnerIdWithIncorrectId() {
         var user = new User();
         user.setId(1L);
 
@@ -521,6 +518,51 @@ public class ItemServiceUnitTest {
         var actual = itemService.getByOwnerId(99L, from, size);
 
         Assertions.assertEquals(new ArrayList<>(), actual);
+    }
+
+    @Test
+    public void shouldThrowPaginationParametersAreIncorrectExceptionWhenGetByOwnerIdWithIncorrectSize() {
+        var user = new User();
+        user.setId(1L);
+
+        List<Comment> comments = new ArrayList<>();
+        Comment comment = new Comment();
+        comment.setId(2L);
+        comment.setText("one beautiful comment");
+        comment.setCreated(LocalDateTime.now());
+        comment.setAuthor(user);
+        comments.add(comment);
+        var commentsDto = comments.stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+
+        Set<Booking> bookings = new HashSet<>();
+        Booking booking = new Booking();
+        booking.setStart(LocalDateTime.now().minusDays(2));
+        booking.setEnd(LocalDateTime.now().minusDays(1));
+        booking.setBooker(user);
+        bookings.add(booking);
+
+        var itemDto = new ItemDto();
+        itemDto.setId(1L);
+        itemDto.setName("itemDto");
+        itemDto.setAvailable(true);
+        itemDto.setDescription("itemDto description");
+        itemDto.setOwner(user);
+        itemDto.setBookings(bookings);
+        itemDto.setComments(commentsDto);
+        itemDto.setLastBooking(BookingMapper.toBookingDto(booking));
+
+        var itemDtoList = new ArrayList<Item>();
+        itemDtoList.add(ItemMapper.toItem(itemDto));
+
+        int size = 10;
+        int from = 0;
+
+        Mockito.when(itemRepository.findItemsByOwner_Id(Mockito.any(), Mockito.eq(1L))).thenReturn(itemDtoList);
+        Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
+        Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
+
+        Assertions.assertThrows(PaginationParametersAreIncorrectException.class,
+                () -> itemService.getByOwnerId(1L, from, -99));
     }
 
 
