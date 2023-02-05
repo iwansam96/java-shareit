@@ -521,7 +521,7 @@ public class ItemServiceUnitTest {
     }
 
     @Test
-    public void shouldThrowPaginationParametersAreIncorrectExceptionWhenGetByOwnerIdWithIncorrectSize() {
+    public void shouldThrowIllegalArgumentExceptionWhenGetByOwnerIdWithIncorrectSize() {
         var user = new User();
         user.setId(1L);
 
@@ -561,7 +561,7 @@ public class ItemServiceUnitTest {
         Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
         Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
 
-        Assertions.assertThrows(PaginationParametersAreIncorrectException.class,
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> itemService.getByOwnerId(1L, from, -99));
     }
 
@@ -666,53 +666,53 @@ public class ItemServiceUnitTest {
     }
 
 //    search text is empty
-@Test
-public void shouldReturnEmptyListWhenSearchWhenTextIsEmpty() {
-    var user = new User();
-    user.setId(1L);
+    @Test
+    public void shouldReturnEmptyListWhenSearchWhenTextIsEmpty() {
+        var user = new User();
+        user.setId(1L);
 
-    List<Comment> comments = new ArrayList<>();
-    Comment comment = new Comment();
-    comment.setId(2L);
-    comment.setText("one beautiful comment");
-    comment.setCreated(LocalDateTime.now());
-    comment.setAuthor(user);
-    comments.add(comment);
-    var commentsDto = comments.stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+        List<Comment> comments = new ArrayList<>();
+        Comment comment = new Comment();
+        comment.setId(2L);
+        comment.setText("one beautiful comment");
+        comment.setCreated(LocalDateTime.now());
+        comment.setAuthor(user);
+        comments.add(comment);
+        var commentsDto = comments.stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
 
-    Set<Booking> bookings = new HashSet<>();
-    Booking booking = new Booking();
-    booking.setStart(LocalDateTime.now().minusDays(2));
-    booking.setEnd(LocalDateTime.now().minusDays(1));
-    booking.setBooker(user);
-    bookings.add(booking);
+        Set<Booking> bookings = new HashSet<>();
+        Booking booking = new Booking();
+        booking.setStart(LocalDateTime.now().minusDays(2));
+        booking.setEnd(LocalDateTime.now().minusDays(1));
+        booking.setBooker(user);
+        bookings.add(booking);
 
-    var itemDto = new ItemDto();
-    itemDto.setId(1L);
-    itemDto.setName("itemDto");
-    itemDto.setAvailable(true);
-    itemDto.setDescription("itemDto description");
-    itemDto.setOwner(user);
-    itemDto.setBookings(bookings);
-    itemDto.setComments(commentsDto);
-    itemDto.setLastBooking(BookingMapper.toBookingDto(booking));
+        var itemDto = new ItemDto();
+        itemDto.setId(1L);
+        itemDto.setName("itemDto");
+        itemDto.setAvailable(true);
+        itemDto.setDescription("itemDto description");
+        itemDto.setOwner(user);
+        itemDto.setBookings(bookings);
+        itemDto.setComments(commentsDto);
+        itemDto.setLastBooking(BookingMapper.toBookingDto(booking));
 
-    var itemDtoList = new ArrayList<Item>();
-    itemDtoList.add(ItemMapper.toItem(itemDto));
+        var itemDtoList = new ArrayList<Item>();
+        itemDtoList.add(ItemMapper.toItem(itemDto));
 
-    int size = 10;
-    int from = 0;
+        int size = 10;
+        int from = 0;
 
-    String text = "";
+        String text = "";
 
-    Mockito.when(itemRepository.findItemsByDescriptionContainingIgnoreCaseAndAvailableIsTrue(Mockito.any(), Mockito.eq(text))).thenReturn(itemDtoList);
-    Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
-    Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
+        Mockito.when(itemRepository.findItemsByDescriptionContainingIgnoreCaseAndAvailableIsTrue(Mockito.any(), Mockito.eq(text))).thenReturn(itemDtoList);
+        Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
+        Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
 
-    var actual = itemService.search(text, from, size);
+        var actual = itemService.search(text, from, size);
 
-    Assertions.assertEquals(new ArrayList<>(), actual);
-}
+        Assertions.assertEquals(new ArrayList<>(), actual);
+    }
 
 
 //    get by item request
