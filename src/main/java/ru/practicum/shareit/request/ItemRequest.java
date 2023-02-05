@@ -2,7 +2,6 @@ package ru.practicum.shareit.request;
 
 import lombok.*;
 import org.hibernate.Hibernate;
-import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
