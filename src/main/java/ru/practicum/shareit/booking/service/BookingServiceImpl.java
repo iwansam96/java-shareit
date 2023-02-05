@@ -118,7 +118,7 @@ public class BookingServiceImpl implements BookingService {
             bookings = bookingRepository.getPastByUserIdAndStatus(PageRequest.of(page, size), userId,
                     BookingStatus.stateToStatuses(state));
         else
-            bookings = bookingRepository.getByUserIdAndStatus(PageRequest.of(page, size), userId,
+            bookings = bookingRepository.findBookingsByBooker_IdAndStatusInOrderByStartDesc(PageRequest.of(page, size), userId,
                     BookingStatus.stateToStatuses(state));
 
         return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
@@ -148,7 +148,7 @@ public class BookingServiceImpl implements BookingService {
             bookings = bookingRepository.getPastByOwnerIdAndStatus(PageRequest.of(page, size), userId,
                     BookingStatus.stateToStatuses(state));
         else
-            bookings = bookingRepository.getByOwnerIdAndStatus(PageRequest.of(page, size), userId,
+            bookings = bookingRepository.findBookingsByItem_Owner_IdAndStatusInOrderByStartDesc(PageRequest.of(page, size), userId,
                     BookingStatus.stateToStatuses(state));
 
         return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());

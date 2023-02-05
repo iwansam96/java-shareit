@@ -14,7 +14,6 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.request.repository.ItemRequestRepository;
-import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
@@ -115,7 +114,7 @@ public class ItemServiceImpl implements ItemService {
             throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
         int page = from / size;
 
-        return itemRepository.findByOwnerId(PageRequest.of(page, size), userId).stream()
+        return itemRepository.findItemsByOwner_Id(PageRequest.of(page, size), userId).stream()
                 .map(nextItem -> ItemMapper.toItemDto(nextItem,
                         bookingRepository.getBookingsByItem_Id(nextItem.getId()),
                         userId, commentRepository.getCommentsByItem_Id(nextItem.getId()).stream()
@@ -135,7 +134,7 @@ public class ItemServiceImpl implements ItemService {
             throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
         int page = from / size;
 
-        return itemRepository.search(PageRequest.of(page, size), text.toLowerCase()).stream()
+        return itemRepository.findItemsByDescriptionContainingIgnoreCaseAndAvailableIsTrue(PageRequest.of(page, size), text.toLowerCase()).stream()
                 .map(nextItem -> ItemMapper.toItemDto(nextItem,
                         bookingRepository.getBookingsByItem_Id(nextItem.getId()),
                         null, commentRepository.getCommentsByItem_Id(nextItem.getId()).stream()

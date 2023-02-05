@@ -12,8 +12,8 @@ import java.util.Set;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     //    get for getByUserId
-    @Query("select b from Booking b where b.booker.id = ?1 and b.status in ?2 order by b.start desc")
-    List<Booking> getByUserIdAndStatus(Pageable pageable, Long id, List<BookingStatus> state);
+    List<Booking> findBookingsByBooker_IdAndStatusInOrderByStartDesc(Pageable pageable, Long id,
+                                                                     List<BookingStatus> state);
 
     //    get CURRENT for getByUserId
     @Query("select b from Booking b where b.booker.id = ?1 and b.status in ?2 " +
@@ -27,8 +27,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
 
     //    get for getByItemsByUserId
-    @Query("select b from Booking b where b.item.owner.id = ?1 and b.status in ?2 order by b.start desc")
-    List<Booking> getByOwnerIdAndStatus(Pageable pageable, Long userId, List<BookingStatus> states);
+    List<Booking> findBookingsByItem_Owner_IdAndStatusInOrderByStartDesc(Pageable pageable, Long userId,
+                                                                         List<BookingStatus> states);
 
     //    get CURRENT for getByItemsByUserId
     @Query("select b from Booking b where b.item.owner.id = ?1 and b.status in ?2 " +

@@ -692,7 +692,7 @@ public class BookingServiceUnitTest {
         booking.setId(bookingId);
 
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        Mockito.when(bookingRepository.getByUserIdAndStatus(Mockito.any(PageRequest.class), Mockito.eq(userId),
+        Mockito.when(bookingRepository.findBookingsByBooker_IdAndStatusInOrderByStartDesc(Mockito.any(PageRequest.class), Mockito.eq(userId),
                 Mockito.any())).thenReturn(List.of(booking));
 
         var actual = bookingService.getByUserId(userId, Optional.of("ALL"), from, size);
@@ -733,7 +733,7 @@ public class BookingServiceUnitTest {
         booking.setId(bookingId);
 
         Mockito.when(userRepository.findById(null)).thenReturn(Optional.empty());
-        Mockito.when(bookingRepository.getByUserIdAndStatus(Mockito.any(PageRequest.class), Mockito.eq(userId),
+        Mockito.when(bookingRepository.findBookingsByBooker_IdAndStatusInOrderByStartDesc(Mockito.any(PageRequest.class), Mockito.eq(userId),
                 Mockito.any())).thenReturn(List.of(booking));
 
         Assertions.assertThrows(UserNotFoundException.class,
@@ -856,7 +856,7 @@ public class BookingServiceUnitTest {
         booking.setId(bookingId);
 
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        Mockito.when(bookingRepository.getByOwnerIdAndStatus(Mockito.any(), Mockito.eq(userId),
+        Mockito.when(bookingRepository.findBookingsByItem_Owner_IdAndStatusInOrderByStartDesc(Mockito.any(), Mockito.eq(userId),
                 Mockito.any())).thenReturn(List.of(booking));
 
         var actual = bookingService.getByItemsByUserId(userId, Optional.of("ALL"), from, size);
@@ -897,7 +897,7 @@ public class BookingServiceUnitTest {
         booking.setId(bookingId);
 
         Mockito.when(userRepository.findById(null)).thenReturn(Optional.empty());
-        Mockito.when(bookingRepository.getByOwnerIdAndStatus(Mockito.any(), Mockito.eq(userId),
+        Mockito.when(bookingRepository.findBookingsByItem_Owner_IdAndStatusInOrderByStartDesc(Mockito.any(), Mockito.eq(userId),
                 Mockito.any())).thenReturn(List.of(booking));
 
         Assertions.assertThrows(UserNotFoundException.class,
@@ -937,7 +937,7 @@ public class BookingServiceUnitTest {
         booking.setId(bookingId);
 
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        Mockito.when(bookingRepository.getByOwnerIdAndStatus(Mockito.any(), Mockito.eq(userId),
+        Mockito.when(bookingRepository.findBookingsByItem_Owner_IdAndStatusInOrderByStartDesc(Mockito.any(), Mockito.eq(userId),
                 Mockito.any())).thenReturn(List.of(booking));
 
         var actual = bookingService.getByItemsByUserId(userId, null, from, size);

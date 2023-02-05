@@ -465,7 +465,7 @@ public class ItemServiceUnitTest {
         int size = 10;
         int from = 0;
 
-        Mockito.when(itemRepository.findByOwnerId(Mockito.any(), Mockito.eq(1L))).thenReturn(itemDtoList);
+        Mockito.when(itemRepository.findItemsByOwner_Id(Mockito.any(), Mockito.eq(1L))).thenReturn(itemDtoList);
         Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
         Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
 
@@ -514,7 +514,7 @@ public class ItemServiceUnitTest {
         int size = 10;
         int from = 0;
 
-        Mockito.when(itemRepository.findByOwnerId(Mockito.any(), Mockito.eq(1L))).thenReturn(itemDtoList);
+        Mockito.when(itemRepository.findItemsByOwner_Id(Mockito.any(), Mockito.eq(1L))).thenReturn(itemDtoList);
         Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
         Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
 
@@ -563,7 +563,7 @@ public class ItemServiceUnitTest {
 
         String text = "word";
 
-        Mockito.when(itemRepository.search(Mockito.any(), Mockito.eq(text))).thenReturn(itemDtoList);
+        Mockito.when(itemRepository.findItemsByDescriptionContainingIgnoreCaseAndAvailableIsTrue(Mockito.any(), Mockito.eq(text))).thenReturn(itemDtoList);
         Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
         Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
 
@@ -614,7 +614,7 @@ public class ItemServiceUnitTest {
 
         String text = null;
 
-        Mockito.when(itemRepository.search(Mockito.any(), Mockito.eq(text))).thenReturn(itemDtoList);
+        Mockito.when(itemRepository.findItemsByDescriptionContainingIgnoreCaseAndAvailableIsTrue(Mockito.any(), Mockito.eq(text))).thenReturn(itemDtoList);
         Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
         Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
 
@@ -663,7 +663,7 @@ public void shouldReturnEmptyListWhenSearchWhenTextIsEmpty() {
 
     String text = "";
 
-    Mockito.when(itemRepository.search(Mockito.any(), Mockito.eq(text))).thenReturn(itemDtoList);
+    Mockito.when(itemRepository.findItemsByDescriptionContainingIgnoreCaseAndAvailableIsTrue(Mockito.any(), Mockito.eq(text))).thenReturn(itemDtoList);
     Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
     Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
 
