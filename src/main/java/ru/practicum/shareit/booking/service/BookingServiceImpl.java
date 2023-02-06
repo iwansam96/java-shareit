@@ -126,6 +126,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getByItemsByUserId(Long userId, Optional<String> stateString, Integer from, Integer size) {
+        if (from == null || from < 0 || size == null || size < 0)
+            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
         User user = userRepository.findById(userId).orElse(null);
         if (user == null)
             throw new UserNotFoundException("user with id " + userId + " not found");

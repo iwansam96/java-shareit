@@ -521,7 +521,7 @@ public class ItemServiceUnitTest {
     }
 
     @Test
-    public void shouldThrowIllegalArgumentExceptionWhenGetByOwnerIdWithIncorrectSize() {
+    public void shouldThrowPaginationParametersAreIncorrectExceptionWhenGetByOwnerIdWithIncorrectSize() {
         var user = new User();
         user.setId(1L);
 
@@ -561,7 +561,7 @@ public class ItemServiceUnitTest {
         Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
         Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
 
-        Assertions.assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(PaginationParametersAreIncorrectException.class,
                 () -> itemService.getByOwnerId(1L, from, -99));
     }
 
