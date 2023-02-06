@@ -40,8 +40,6 @@ public class CommentServiceUnitTest {
         itemRepository = Mockito.mock(ItemRepository.class);
         bookingRepository = Mockito.mock(BookingRepository.class);
         commentService = new CommentServiceImpl(commentRepository, userRepository, itemRepository, bookingRepository);
-
-
     }
 
     //    add comment

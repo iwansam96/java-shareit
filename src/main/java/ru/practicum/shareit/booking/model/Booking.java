@@ -12,7 +12,6 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Entity
 @Table(name = "bookings", schema = "public")
@@ -46,10 +45,5 @@ public class Booking {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Booking booking = (Booking) o;
         return id != null && Objects.equals(id, booking.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

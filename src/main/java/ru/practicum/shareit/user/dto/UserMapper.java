@@ -1,9 +1,7 @@
 package ru.practicum.shareit.user.dto;
 
-import lombok.Data;
 import ru.practicum.shareit.user.model.User;
 
-@Data
 public class UserMapper {
     public static UserDto toUserDto(User user) {
         UserDto userDto = new UserDto();

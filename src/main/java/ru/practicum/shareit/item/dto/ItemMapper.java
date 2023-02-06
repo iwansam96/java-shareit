@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item.dto;
 
-import lombok.Data;
 import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.comment.dto.CommentDto;
@@ -11,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Data
 public class ItemMapper {
     public static ItemDto toItemDto(@Valid @NotNull Item item, @Valid @NotNull Set<Booking> bookings,
                                     @Valid @NotNull Long userId, @Valid @NotNull List<CommentDto> comments) {
