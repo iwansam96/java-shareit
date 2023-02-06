@@ -98,7 +98,7 @@ public class CommentServiceUnitTest {
 
         var actual = commentService.addComment(user2.getId(), itemId, commentDtoInput);
 
-        Assertions.assertEquals(CommentMapper.toCommentDto(comment), actual);
+        Assertions.assertEquals(comment, CommentMapper.toComment(actual, user2, item));
     }
 
     //    add comment userId is incorrect

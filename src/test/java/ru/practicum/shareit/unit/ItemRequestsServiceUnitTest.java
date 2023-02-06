@@ -73,7 +73,8 @@ public class ItemRequestsServiceUnitTest {
         Mockito.when(itemRequestRepository.save(Mockito.any(ItemRequest.class))).thenReturn(itemRequest);
 
         var actual = itemRequestService.add(requestorId, itemRequestDtoInput);
-        Assertions.assertEquals(ItemRequestMapper.toItemRequestDto(itemRequest, new ArrayList<>()), actual);
+        Assertions.assertEquals(itemRequest, ItemRequestMapper.toItemRequest(requestor, actual));
+//        Assertions.assertEquals(ItemRequestMapper.toItemRequestDto(itemRequest, new ArrayList<>()), actual);
     }
 
     //    add itemRequestDtoInput is null

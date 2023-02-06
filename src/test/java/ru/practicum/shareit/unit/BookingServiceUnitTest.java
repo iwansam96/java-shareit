@@ -43,6 +43,7 @@ public class BookingServiceUnitTest {
         Long userId = 1L;
         Long bookerId = 2L;
         Long itemId = 1L;
+        Long bookingId = 1L;
 
         User user = new User();
         user.setId(userId);
@@ -62,6 +63,7 @@ public class BookingServiceUnitTest {
         bookingDtoInput.setEnd(LocalDateTime.now().plusDays(2));
 
         Booking booking = BookingMapper.toBooking(bookingDtoInput, item, user, BookingStatus.WAITING);
+        booking.setId(bookingId);
 
         Mockito.when(itemRepository.findById(itemId)).thenReturn(Optional.of(item));
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
@@ -70,7 +72,7 @@ public class BookingServiceUnitTest {
 
         var actual = bookingService.add(bookingDtoInput, bookerId);
 
-        Assertions.assertEquals(BookingMapper.toBookingDto(booking), actual);
+        Assertions.assertEquals(booking, BookingMapper.toBooking(actual));
     }
 
     //    add booking dtoInput null
