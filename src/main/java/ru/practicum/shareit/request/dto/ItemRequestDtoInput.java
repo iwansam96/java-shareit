@@ -7,5 +7,5 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ItemRequestDtoInput {
     @NotBlank
-    String description;
+    private String description;
 }

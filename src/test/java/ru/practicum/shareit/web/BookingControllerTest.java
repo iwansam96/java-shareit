@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -76,8 +77,6 @@ public class BookingControllerTest {
     private BookingDto bookingDto;
 
     private final Long bookingId = 5L;
-//    private final LocalDateTime bookingStart = LocalDateTime.now().plusDays(1);
-//    private final LocalDateTime bookingEnd = LocalDateTime.now().plusDays(2);
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     private final LocalDateTime bookingStart = LocalDateTime.of(2023, 2, 6, 12, 21, 0, 0);
     private final LocalDateTime bookingEnd = LocalDateTime.of(2023, 2, 7, 12, 21, 0, 0);
@@ -137,6 +136,7 @@ public class BookingControllerTest {
     }
 
     @Test
+    @DisplayName("Test add method")
     public void add() throws Exception {
         Mockito.when(bookingController.add(bookingDtoInput, user2Id)).thenReturn(bookingDto);
 
@@ -155,6 +155,7 @@ public class BookingControllerTest {
     }
 
     @Test
+    @DisplayName("Test setApproveById method")
     public void setApproveById() throws Exception {
         bookingDto.setStatus(BookingStatus.APPROVED);
 
@@ -174,6 +175,7 @@ public class BookingControllerTest {
     }
 
     @Test
+    @DisplayName("Test getById method")
     public void getById() throws Exception {
         Mockito.when(bookingController.getById(bookingId, user1Id)).thenReturn(bookingDto);
 
@@ -191,6 +193,7 @@ public class BookingControllerTest {
     }
 
     @Test
+    @DisplayName("Test getByUserId method")
     public void getByUserId() throws Exception {
         List<BookingDto> bookings = new ArrayList<>();
         bookings.add(bookingDto);
@@ -212,6 +215,7 @@ public class BookingControllerTest {
     }
 
     @Test
+    @DisplayName("Test getByItemsByUserId method")
     public void getByItemsByUserId() throws Exception {
         List<BookingDto> bookings = new ArrayList<>();
         bookings.add(bookingDto);

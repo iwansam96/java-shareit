@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.ItemRequestDescriptionIsInvalidException;
 import ru.practicum.shareit.exception.ItemRequestNotFoundException;
-import ru.practicum.shareit.exception.PaginationParametersAreIncorrectException;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -60,8 +59,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public List<ItemRequestDto> getAllByPages(Long userId, Integer from, Integer size) {
-        if (from == null || from < 0 || size == null || size < 0)
-            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
         int page = from / size;
 
         User user = UserMapper.toUser(userService.getById(userId));

@@ -2,6 +2,7 @@ package ru.practicum.shareit.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +39,7 @@ public class BookingServiceUnitTest {
 
     //    add
     @Test
+	@DisplayName("Test add method")
     public void shouldReturnBookingWhenAdd() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -77,6 +79,7 @@ public class BookingServiceUnitTest {
 
     //    add booking dtoInput null
     @Test
+	@DisplayName("Test add method throws BookingInputDataIsIncorrectException")
     public void shouldThrowBookingInputDataIsIncorrectExceptionWhenAddWithDtoInputIsNull() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -113,6 +116,7 @@ public class BookingServiceUnitTest {
 
     //    add userId null
     @Test
+	@DisplayName("Test add method throws UserNotFoundException")
     public void shouldThrowUserNotFoundExceptionWhenAddWithUserIdIsIncorrect() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -149,6 +153,7 @@ public class BookingServiceUnitTest {
 
     //    add item not found
     @Test
+	@DisplayName("Test add method throws ItemNotFoundException")
     public void shouldThrowItemNotFoundExceptionWhenAddWithItemIdIsIncorect() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -185,6 +190,7 @@ public class BookingServiceUnitTest {
 
     //    add item is not available
     @Test
+	@DisplayName("Test add method throws ItemIsNotAvailableException")
     public void shouldThrowItemIsNotAvailableExceptionWhenAddWithItemIsNotAvailable() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -221,6 +227,7 @@ public class BookingServiceUnitTest {
 
     //    add booker is owner
     @Test
+	@DisplayName("Test add method throws BookingItemByOwnerException")
     public void shouldThrowBookingItemByOwnerExceptionWhenAddWithOwnerAsBooker() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -257,6 +264,7 @@ public class BookingServiceUnitTest {
 
     //    add end is before start
     @Test
+	@DisplayName("Test add method BookingDatesAreIncorrectException")
     public void shouldThrowBookingDatesAreIncorrectExceptionWhenAddWithEndIsBeforeStart() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -293,6 +301,7 @@ public class BookingServiceUnitTest {
 
     //    add end is before now
     @Test
+	@DisplayName("Test add method throws BookingDatesAreIncorrectException")
     public void shouldThrowBookingDatesAreIncorrectExceptionWhenAddWithEndIsBeforeNow() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -329,6 +338,7 @@ public class BookingServiceUnitTest {
 
     //    add start is before now
     @Test
+	@DisplayName("Test add method BookingDatesAreIncorrectException")
     public void shouldThrowBookingDatesAreIncorrectExceptionWhenAddWithStartIsBeforeNow() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -366,6 +376,7 @@ public class BookingServiceUnitTest {
 
     //    set approve
     @Test
+	@DisplayName("Test setApproveById method")
     public void shouldReturnApprovedBookingWhenSetApprove() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -405,6 +416,7 @@ public class BookingServiceUnitTest {
 
     //    set approve booking id is incorrect
     @Test
+	@DisplayName("Test setApproveById method returns null")
     public void shouldReturnNullWhenSetApproveWithBookingIdIsIncorrect() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -442,6 +454,7 @@ public class BookingServiceUnitTest {
 
     //    set approve isApproved is null
     @Test
+	@DisplayName("Test setApproveById method with REJECTED")
     public void shouldReturnRejectedBookingWhenSetApproveIsApprovedIsNull() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -481,6 +494,7 @@ public class BookingServiceUnitTest {
 
     //    set approve by not owner
     @Test
+	@DisplayName("Test setApproveById method throws BookingApprovePermissionsException")
     public void shouldThrowBookingApprovePermissionsExceptionWhenSetApproveByNotOwner() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -519,6 +533,7 @@ public class BookingServiceUnitTest {
 
     //    set approve after approve
     @Test
+	@DisplayName("Test setApproveById method throws BookingApproveAfterApproveException")
     public void shouldThrowBookingApproveAfterApproveExceptionWhenSetApproveAfterApprove() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -558,6 +573,7 @@ public class BookingServiceUnitTest {
 
     //    get by id
     @Test
+	@DisplayName("Test getById method")
     public void shouldReturnBookingWhenGetById() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -594,6 +610,7 @@ public class BookingServiceUnitTest {
 
     //    get by id booking not found
     @Test
+	@DisplayName("Test getById method throws BookingNotFoundException (incorrect id)")
     public void shouldThrowBookingNotFoundExceptionWhenGetByIdWithIncorectId() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -628,6 +645,7 @@ public class BookingServiceUnitTest {
 
     //    get by id user is not owner/booker
     @Test
+	@DisplayName("Test getById method throws BookingNotFoundException (User is not owner)")
     public void shouldThrowBookingNotFoundExceptionWhenGetByIdWithUserIsNotOwnerOrBooker() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -663,6 +681,7 @@ public class BookingServiceUnitTest {
 
     //    get by user id
     @Test
+	@DisplayName("Test getByUserId method")
     public void shouldReturnBookingWhenGetByUserId() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -704,6 +723,7 @@ public class BookingServiceUnitTest {
 
     //    get by user id user not found
     @Test
+	@DisplayName("Test getByUserId method throws UserNotFoundException")
     public void shouldThrowUserNotFoundExceptionWhenGetByUserIdWithIncorrectUserId() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -744,6 +764,7 @@ public class BookingServiceUnitTest {
 
     //    get by user id booking state is current
     @Test
+	@DisplayName("Test getByUserId method with CURRENT state")
     public void shouldReturnBookingWithCurrentStateWhenGetByUserIdAndCurrentState() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -785,6 +806,7 @@ public class BookingServiceUnitTest {
 
     //    get by user id booking state is past
     @Test
+	@DisplayName("Test getByUserId method with PAST state")
     public void shouldReturnBookingWithPastStateWhenGetByUserIdAndPastState() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -827,6 +849,7 @@ public class BookingServiceUnitTest {
 
     //    get by items by user id (get users items -> get bookings for this items)
     @Test
+	@DisplayName("Test getByItemsByUserId method")
     public void shouldReturnBookingWhenGetByItemsByUserId() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -868,7 +891,8 @@ public class BookingServiceUnitTest {
 
     //    get by items by user id user id is incorrect
     @Test
-    public void shouldThrow() {
+	@DisplayName("Test getByItemsByUserId method throws UserNotFoundException")
+    public void shouldThrowUserNotFoundExceptionwhenGetByItemsByUserIdWithIncorrectUserId() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
         Long bookerId = 2L;
@@ -908,6 +932,7 @@ public class BookingServiceUnitTest {
 
     //    get by items by user id stateString is null
     @Test
+	@DisplayName("Test getByItemsByUserId method with incorrect state")
     public void shouldThrowStatusIsUnsupportedExceptionWhenGetByItemByUserIdWithStateIsNull() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -948,6 +973,7 @@ public class BookingServiceUnitTest {
 
 //    get by items by user id State is CURRENT
     @Test
+	@DisplayName("Test getByItemsByUserId method with CURRENT state")
     public void shoudReturnBookingWithCurrentStateWhenGetByItemByUserIdAndStateIsCurrent() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;
@@ -989,6 +1015,7 @@ public class BookingServiceUnitTest {
 
 //    get by items by user id State is PAST
     @Test
+	@DisplayName("Test getByItemsByUserId method with PAST state")
     public void shoudReturnBookingWithPastStateWhenGetByItemByUserIdAndStateIsPast() {
         BookingDtoInput bookingDtoInput = new BookingDtoInput();
         Long userId = 1L;

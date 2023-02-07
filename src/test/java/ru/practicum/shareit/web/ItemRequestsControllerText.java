@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -128,6 +129,7 @@ public class ItemRequestsControllerText {
     }
 
     @Test
+    @DisplayName("Test add method")
     public void add() throws Exception {
         Mockito.when(itemRequestController.add(user2Id, itemRequestDtoInput)).thenReturn(itemRequestDto);
 
@@ -145,6 +147,7 @@ public class ItemRequestsControllerText {
     }
 
     @Test
+    @DisplayName("Test getByRequestId method")
     public void getByRequestId() throws Exception {
         Mockito.when(itemRequestController.getByRequestId(user2Id, requestId)).thenReturn(itemRequestDto);
 
@@ -161,7 +164,8 @@ public class ItemRequestsControllerText {
     }
 
     @Test
-    public void getByRequestorid() throws Exception {
+    @DisplayName("Test getByRequestorId method")
+    public void getByRequestorId() throws Exception {
         List<ItemRequestDto> requests = new ArrayList<>();
         requests.add(itemRequestDto);
 
@@ -180,6 +184,7 @@ public class ItemRequestsControllerText {
     }
 
     @Test
+    @DisplayName("Test getAllByPages method")
     public void getAllByPages() throws Exception {
         List<ItemRequestDto> requests = new ArrayList<>();
         requests.add(itemRequestDto);

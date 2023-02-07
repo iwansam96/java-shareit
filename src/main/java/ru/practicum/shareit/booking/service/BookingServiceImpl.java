@@ -1,9 +1,9 @@
 package ru.practicum.shareit.booking.service;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.practicum.shareit.booking.BookingState;
 import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -23,15 +23,13 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Validated
 public class BookingServiceImpl implements BookingService {
-    @NonNull
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
 
-    @NonNull
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
-    @NonNull
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -100,8 +98,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getByUserId(Long userId, Optional<String> stateString, Integer from, Integer size) {
-        if (from == null || from < 0 || size == null || size < 0)
-            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
         int page = from / size;
 
         BookingState state = BookingState.stringToState(stateString);
@@ -126,8 +122,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getByItemsByUserId(Long userId, Optional<String> stateString, Integer from, Integer size) {
-        if (from == null || from < 0 || size == null || size < 0)
-            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
         User user = userRepository.findById(userId).orElse(null);
         if (user == null)
             throw new UserNotFoundException("user with id " + userId + " not found");
@@ -137,9 +131,6 @@ public class BookingServiceImpl implements BookingService {
         }
         BookingState state = BookingState.stringToState(stateString);
 
-        if (from == null || from < 0 || size == null || size < 0) {
-            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
-        }
         int page = from / size;
 
         List<Booking> bookings;

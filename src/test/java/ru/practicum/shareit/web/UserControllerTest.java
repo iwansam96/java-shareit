@@ -2,6 +2,7 @@ package ru.practicum.shareit.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,6 +61,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test save method")
     public void save() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(user1Id);
@@ -80,6 +82,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test getById method")
     public void getById() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(user1Id);
@@ -99,6 +102,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test update method")
     public void update() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(user1Id);
@@ -124,6 +128,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test deleteById method")
     public void deleteById() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(user1Id);
@@ -147,6 +152,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test getAll method")
     public void getAll() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(user1Id);

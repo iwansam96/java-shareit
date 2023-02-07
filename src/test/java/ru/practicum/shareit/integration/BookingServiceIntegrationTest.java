@@ -2,6 +2,7 @@ package ru.practicum.shareit.integration;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +37,7 @@ public class BookingServiceIntegrationTest {
     private final BookingService bookingService;
 
     @Test
+    @DisplayName("Test add method")
     public void add() {
         var user1 = new User();
         user1.setName("user1");
@@ -67,6 +69,7 @@ public class BookingServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test setApproveById method")
     public void setApproveById() {
         var user1 = new User();
         user1.setName("user1");
@@ -101,6 +104,7 @@ public class BookingServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test getById method")
     public void getById() {
         var user1 = new User();
         user1.setName("user1");
@@ -134,6 +138,7 @@ public class BookingServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test getByUserId method")
     public void getByUserId() {
         var user1 = new User();
         user1.setName("user1");
@@ -168,6 +173,7 @@ public class BookingServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test getByItemsByUserId method")
     public void getByItemsByUserId() {
         var user1 = new User();
         user1.setName("user1");

@@ -2,6 +2,7 @@ package ru.practicum.shareit.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.PageRequest;
@@ -41,6 +42,7 @@ public class ItemRequestsServiceUnitTest {
 
     //    add
     @Test
+	@DisplayName("Test add method")
     public void shouldReturnItemRequest() {
         Long requestorId = 1L;
         User requestor = new User();
@@ -79,6 +81,7 @@ public class ItemRequestsServiceUnitTest {
 
     //    add itemRequestDtoInput is null
     @Test
+	@DisplayName("Test add method throws ItemRequestDescriptionIsInvalidException (request is null)")
     public void shouldThrowItemRequestDescriptionIsInvalidExceptionWhenAddWithItemRequestDtoInputIsNull() {
         Long requestorId = 1L;
         User requestor = new User();
@@ -116,6 +119,7 @@ public class ItemRequestsServiceUnitTest {
 
     //    add text in itemRequestDtoInput is null
     @Test
+	@DisplayName("Test add method throws ItemRequestDescriptionIsInvalidException (request text is null)")
     public void shouldThrowItemRequestDescriptionIsInvalidExceptionWhenAddWithTextInItemRequestDtoInputIsNull() {
         Long requestorId = 1L;
         User requestor = new User();
@@ -153,6 +157,7 @@ public class ItemRequestsServiceUnitTest {
 
     //    add text in itemRequestDtoInput is empty
     @Test
+	@DisplayName("Test add method throws ItemRequestDescriptionIsInvalidException (request text is empty)")
     public void shouldThrowItemRequestDescriptionIsInvalidExceptionWhenAddWithTextInItemRequestDtoInputIsEmpty() {
         Long requestorId = 1L;
         User requestor = new User();
@@ -190,6 +195,7 @@ public class ItemRequestsServiceUnitTest {
 
     //    getByRequestorId
     @Test
+	@DisplayName("Test getByRequestorId method")
     public void shouldReturnItemRequestListWhenGetByRequestorId() {
         Long requestorId = 1L;
         User requestor = new User();
@@ -232,6 +238,7 @@ public class ItemRequestsServiceUnitTest {
 
     //    getAllByPages
     @Test
+	@DisplayName("Test getAllByPages method")
     public void shouldReturnItemRequestListWhenGetAllByPages() {
         int page = 1;
         int size = 10;
@@ -278,6 +285,7 @@ public class ItemRequestsServiceUnitTest {
 
     //    getByRequestId
     @Test
+	@DisplayName("Test getByRequestId method")
     public void shouldReturnItemRequestWhenGetByRequestId() {
         Long requestorId = 1L;
         User requestor = new User();
@@ -315,6 +323,7 @@ public class ItemRequestsServiceUnitTest {
 
     //    getByRequestId requestId is incorrect
     @Test
+	@DisplayName("Test getByRequestId method throws ItemRequestNotFoundException")
     public void shouldThrowItemRequestNotFoundExceptionWhenGetByRequestIdWithRequestIdIsIncorrect() {
         Long requestorId = 1L;
         User requestor = new User();

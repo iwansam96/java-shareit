@@ -2,6 +2,7 @@ package ru.practicum.shareit.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.practicum.shareit.booking.BookingStatus;
@@ -44,7 +45,8 @@ public class CommentServiceUnitTest {
 
     //    add comment
     @Test
-    public void shouldReturnNewCommnet() {
+	@DisplayName("Test addComment method")
+    public void shouldReturnNewComment() {
         Long userId = 1L;
         Long itemId = 3L;
         Long bookingId = 4L;
@@ -101,6 +103,7 @@ public class CommentServiceUnitTest {
 
     //    add comment userId is incorrect
     @Test
+	@DisplayName("Test addComment method throws UserNotFoundException")
     public void shouldThrowUserNotFoundExceptionWhenAddCommentWithIncorrectUserId() {
         Long userId = 1L;
         Long itemId = 3L;
@@ -157,6 +160,7 @@ public class CommentServiceUnitTest {
 
     //    add comment itemId is incorrect
     @Test
+	@DisplayName("Test addComment method throws ItemNotFoundException")
     public void shouldThrowItemNotFoundExceptionWhenAddCommentWithIncorrectItemId() {
         Long userId = 1L;
         Long itemId = 3L;
@@ -213,6 +217,7 @@ public class CommentServiceUnitTest {
 
     //    add comment commentDtoInput is null
     @Test
+	@DisplayName("Test addComment method throws ItemTextForSearchIsEmptyException (comment is null)")
     public void shouldThrowItemTextForSearchIsEmptyExceptionWhenAddCommentWithItemDtoInputIsNull() {
         Long userId = 1L;
         Long itemId = 3L;
@@ -269,6 +274,7 @@ public class CommentServiceUnitTest {
 
     //    add comment text in commentDtoInput is null
     @Test
+	@DisplayName("Test addComment method throws ItemTextForSearchIsEmptyException (comment text is null)")
     public void shouldThrowItemTextForSearchIsEmptyExceptionWhenAddCommentWithCommentTextIsNull() {
         Long userId = 1L;
         Long itemId = 3L;
@@ -325,6 +331,7 @@ public class CommentServiceUnitTest {
 
     //    add comment commentDtoInput is blank
     @Test
+	@DisplayName("Test addComment method throws ItemTextForSearchIsEmptyException (comment text is blank)")
     public void shouldThrowItemTextForSearchIsEmptyExceptionWhenTextInCommentDtoInputIsBlank() {
         Long userId = 1L;
         Long itemId = 3L;
@@ -381,6 +388,7 @@ public class CommentServiceUnitTest {
 
     //    add comment before booking
     @Test
+	@DisplayName("Test addComment method throws CommentBeforeBookingException")
     public void shouldThrowCommentBeforeBookingExceptionWhenAddCommentBeforeBooking() {
         Long userId = 1L;
         Long itemId = 3L;

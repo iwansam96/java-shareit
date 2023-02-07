@@ -110,8 +110,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getByOwnerId(Long userId, Integer from, Integer size) {
-        if (from == null || from < 0 || size == null || size < 0)
-            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
         int page = from / size;
 
         return itemRepository.findItemsByOwner_Id(PageRequest.of(page, size), userId).stream()
@@ -126,8 +124,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> search(String text, Integer from, Integer size) {
-        if (from == null || from < 0 || size == null || size < 0)
-            throw new PaginationParametersAreIncorrectException("'from' or 'size' is null or < 0");
         if (text == null || text.isBlank()) {
             return new ArrayList<>();
         }

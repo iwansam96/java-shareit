@@ -2,6 +2,7 @@ package ru.practicum.shareit.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -107,6 +108,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("Test add method")
     public void add() throws Exception {
         Mockito.when(itemService.add(user1Id, itemDto)).thenReturn(itemDto);
 
@@ -123,6 +125,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("Test edit method")
     public void edit() throws Exception {
         ItemDto itemDtoUpdated = new ItemDto();
         itemDtoUpdated.setId(itemId);
@@ -146,6 +149,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("Test getById method")
     public void getById() throws Exception {
         Mockito.when(itemService.getById(itemId, user1Id)).thenReturn(itemDto);
 
@@ -162,6 +166,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("Test getByOwnerId method")
     public void getByOwnerId() throws Exception {
         List<ItemDto> items = new ArrayList<>();
         items.add(itemDto);
@@ -184,6 +189,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("Test search method")
     public void search() throws Exception {
         List<ItemDto> items = new ArrayList<>();
         items.add(itemDto2);
@@ -202,6 +208,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("Test addComment method")
     public void addComment() throws Exception {
         String commentText = "comment1 for item1";
 

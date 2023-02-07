@@ -2,6 +2,7 @@ package ru.practicum.shareit.integration;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +36,7 @@ public class CommentServiceIntegrationTest {
     private final CommentService commentService;
 
     @Test
+    @DisplayName("Test addComment method")
     public void addComment() {
         var user1 = new User();
         user1.setName("user1");

@@ -128,12 +128,4 @@ public class BusinessExceptionHandler {
         log.error(e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler({ PaginationParametersAreIncorrectException.class })
-    public ResponseEntity<Object> handleItemRequestPaginationParametersAreIncorrectException(
-            PaginationParametersAreIncorrectException e) {
-        log.error(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
 }

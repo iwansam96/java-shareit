@@ -1,5 +1,6 @@
 package ru.practicum.shareit.jpa;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -25,6 +26,7 @@ public class ItemRepositoryTest {
     private BookingRepository bookingRepository;
 
     @Test
+    @DisplayName("Test getCurrentByUserIdAndStatus method")
     public void getCurrentByUserIdAndStatus() {
         List<BookingStatus> statuses = new ArrayList<>();
         statuses.add(BookingStatus.APPROVED);
@@ -40,6 +42,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test getPastByUserIdAndStatus method")
     public void getPastByUserIdAndStatus() {
         List<BookingStatus> statuses = new ArrayList<>();
         statuses.add(BookingStatus.CANCELLED);
@@ -55,6 +58,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test getCurrentByOwnerIdAndStatus method")
     public void getCurrentByOwnerIdAndStatus() {
         List<BookingStatus> statuses = new ArrayList<>();
         statuses.add(BookingStatus.APPROVED);
@@ -70,6 +74,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test getPastByOwnerIdAndStatus method")
     public void getPastByOwnerIdAndStatus() {
         List<BookingStatus> statuses = new ArrayList<>();
         statuses.add(BookingStatus.CANCELLED);

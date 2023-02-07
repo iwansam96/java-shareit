@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingDtoInput;
@@ -10,6 +11,8 @@ import ru.practicum.shareit.booking.service.BookingService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/bookings")
 @Slf4j
+@Validated
 public class BookingController {
     @NonNull
     private BookingService bookingService;
@@ -49,8 +53,8 @@ public class BookingController {
     @GetMapping
     public List<BookingDto> getByUserId(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId,
                                         @RequestParam Optional<String> state,
-                                        @RequestParam(defaultValue = "0") Integer from,
-                                        @RequestParam(defaultValue = "10") Integer size) {
+                                        @Valid @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
+                                        @Valid @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
         log.info("GET /bookings?state={}", state);
 
         return bookingService.getByUserId(userId, state, from, size);
@@ -59,8 +63,8 @@ public class BookingController {
     @GetMapping("/owner")
     public List<BookingDto> getByItemsByUserId(@Valid @NotNull @RequestHeader("X-Sharer-User-Id") Long userId,
                                                @RequestParam Optional<String> state,
-                                               @RequestParam(defaultValue = "0") Integer from,
-                                               @RequestParam(defaultValue = "10") Integer size) {
+                                               @Valid @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
+                                               @Valid @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
         log.info("GET /bookings/owner?state={}", state);
 
         return bookingService.getByItemsByUserId(userId, state, from, size);

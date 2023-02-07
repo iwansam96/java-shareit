@@ -2,6 +2,7 @@ package ru.practicum.shareit.integration;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,7 @@ public class UserServiceIntegrationTest {
     private final UserService userService;
 
     @Test
+    @DisplayName("Test save method")
     public void save() {
         var user1 = new User();
         user1.setName("user1");
@@ -37,6 +39,7 @@ public class UserServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test getAll method")
     public void getAll() {
         var user1 = new User();
         user1.setName("user1");
@@ -57,6 +60,7 @@ public class UserServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test getById method")
     public void getById() {
         var user1 = new User();
         user1.setName("user1");
@@ -72,6 +76,7 @@ public class UserServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test update method")
     public void update() {
         var user1 = new User();
         user1.setName("user1");
@@ -90,6 +95,7 @@ public class UserServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test delete method")
     public void delete() {
         var user1 = new User();
         user1.setName("user1");

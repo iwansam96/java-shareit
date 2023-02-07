@@ -2,6 +2,7 @@ package ru.practicum.shareit.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.practicum.shareit.booking.dto.BookingMapper;
@@ -48,6 +49,7 @@ public class ItemServiceUnitTest {
 
     //    add userId incorrect
     @Test
+	@DisplayName("Test add method throws UserNotFoundException")
     public void shouldThrowUserNotFoundExceptionWhenAddItemWithIncorrectUserId() {
         var itemDto = new ItemDto();
         itemDto.setName("itemDto");
@@ -58,6 +60,7 @@ public class ItemServiceUnitTest {
 
     //    add itemDto = null
     @Test
+	@DisplayName("Test add method throws ItemDataIsIncorrectException (itemDto is null)")
     public void shouldThrowItemDataIsIncorrectExceptionWhenAddWhenItemDtoIsNull() {
         var user = new User();
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(user));
@@ -66,6 +69,7 @@ public class ItemServiceUnitTest {
 
     //    add new item
     @Test
+	@DisplayName("Test add method")
     public void shouldReturnNewItemWhenAdd() {
         var user = new User();
         user.setId(1L);
@@ -87,6 +91,7 @@ public class ItemServiceUnitTest {
 
     //    add new item name = null
     @Test
+	@DisplayName("Test add method throws ItemDataIsIncorrectException (name is null)")
     public void shouldThrowItemDataIsIncorrectExceptionWhenAddWhithNullName() {
         var user = new User();
         user.setId(1L);
@@ -106,6 +111,7 @@ public class ItemServiceUnitTest {
 
     //    add new item description = null
     @Test
+	@DisplayName("Test add method throws ItemDataIsIncorrectException (description is null)")
     public void shouldThrowItemDataIsIncorrectExceptionWhenAddWhithNullDescription() {
         var user = new User();
         user.setId(1L);
@@ -125,6 +131,7 @@ public class ItemServiceUnitTest {
 
     //    add new item available = null
     @Test
+	@DisplayName("Test add method throws ItemDataIsIncorrectException (available is null)")
     public void shouldThrowItemDataIsIncorrectExceptionWhenAddWhithNullAvailable() {
         var user = new User();
         user.setId(1L);
@@ -145,6 +152,7 @@ public class ItemServiceUnitTest {
 
     //    edit item
     @Test
+	@DisplayName("Test edit method")
     public void shouldReturnEditedItem() {
         var user = new User();
         user.setId(1L);
@@ -176,6 +184,7 @@ public class ItemServiceUnitTest {
 
     //    edit userId incorrect
     @Test
+	@DisplayName("Test edit method throws ItemEditingByNonOwnerException (edit not owner)")
     public void shouldThrowItemEditingByNonOwnerExceptionWhenEditNotOwner() {
         var user = new User();
         user.setId(1L);
@@ -207,6 +216,7 @@ public class ItemServiceUnitTest {
 
 //    edit itemId incorrect
     @Test
+	@DisplayName("Test edit method throws ItemNotFoundException")
     public void shouldThrowItemNotFoundExceptionWhenEditWithItemIdIsIncorrect() {
         var user = new User();
         user.setId(1L);
@@ -238,6 +248,7 @@ public class ItemServiceUnitTest {
 
 //    edit itemDto = null
     @Test
+	@DisplayName("Test edit method throws ItemDataIsIncorrectException")
     public void shouldThrowItemDataIsIncorrectExceptionWhenEditWithItemDtoIsNull() {
         var user = new User();
         user.setId(1L);
@@ -269,6 +280,7 @@ public class ItemServiceUnitTest {
 
 //    edit item by not owner
     @Test
+	@DisplayName("Test edit method throws ItemEditingByNonOwnerException")
     public void shouldThrowItemEditingByNonOwnerExceptionWhenEditByNotOwner() {
         var user = new User();
         user.setId(1L);
@@ -304,6 +316,7 @@ public class ItemServiceUnitTest {
 
 //    get by id
     @Test
+	@DisplayName("Test getById method")
     public void shouldReturnItemWhenGetById() {
         var user = new User();
         user.setId(1L);
@@ -346,6 +359,7 @@ public class ItemServiceUnitTest {
 
 //    get by id itemId is incorrect
     @Test
+	@DisplayName("Test getById method throws ItemNotFoundException (incorrect item id)")
     public void shouldThrowItemNotFoundExceptionWhenGetByIdWithIncorrectItemid() {
         var user = new User();
         user.setId(1L);
@@ -385,6 +399,7 @@ public class ItemServiceUnitTest {
 
 //    get by id userId is not owner
     @Test
+	@DisplayName("Test getById method (user is not owner)")
     public void shouldReturnItemWithoutNextAndLastBookingsWhenGetByIdWithNotOwnerId() {
         var user = new User();
         user.setId(1L);
@@ -426,6 +441,7 @@ public class ItemServiceUnitTest {
 
 //    get by ownerId
     @Test
+	@DisplayName("Test getByOwnerId method")
     public void shouldReturnListWithItemWhenGetByOwnerId() {
         var user = new User();
         user.setId(1L);
@@ -475,6 +491,7 @@ public class ItemServiceUnitTest {
 
 //    get by ownerId userId is incorrect
     @Test
+	@DisplayName("Test getByOwnerId method (userId is incorrect)")
     public void shouldReturnEmptyListWhenGetByOwnerIdWithIncorrectId() {
         var user = new User();
         user.setId(1L);
@@ -520,54 +537,9 @@ public class ItemServiceUnitTest {
         Assertions.assertEquals(new ArrayList<>(), actual);
     }
 
-    @Test
-    public void shouldThrowPaginationParametersAreIncorrectExceptionWhenGetByOwnerIdWithIncorrectSize() {
-        var user = new User();
-        user.setId(1L);
-
-        List<Comment> comments = new ArrayList<>();
-        Comment comment = new Comment();
-        comment.setId(2L);
-        comment.setText("one beautiful comment");
-        comment.setCreated(LocalDateTime.now());
-        comment.setAuthor(user);
-        comments.add(comment);
-        var commentsDto = comments.stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
-
-        Set<Booking> bookings = new HashSet<>();
-        Booking booking = new Booking();
-        booking.setStart(LocalDateTime.now().minusDays(2));
-        booking.setEnd(LocalDateTime.now().minusDays(1));
-        booking.setBooker(user);
-        bookings.add(booking);
-
-        var itemDto = new ItemDto();
-        itemDto.setId(1L);
-        itemDto.setName("itemDto");
-        itemDto.setAvailable(true);
-        itemDto.setDescription("itemDto description");
-        itemDto.setOwner(user);
-        itemDto.setBookings(bookings);
-        itemDto.setComments(commentsDto);
-        itemDto.setLastBooking(BookingMapper.toBookingDto(booking));
-
-        var itemDtoList = new ArrayList<Item>();
-        itemDtoList.add(ItemMapper.toItem(itemDto));
-
-        int size = 10;
-        int from = 0;
-
-        Mockito.when(itemRepository.findItemsByOwner_Id(Mockito.any(), Mockito.eq(1L))).thenReturn(itemDtoList);
-        Mockito.when(bookingRepository.getBookingsByItem_Id(1L)).thenReturn(bookings);
-        Mockito.when(commentRepository.getCommentsByItem_Id(1L)).thenReturn(comments);
-
-        Assertions.assertThrows(PaginationParametersAreIncorrectException.class,
-                () -> itemService.getByOwnerId(1L, from, -99));
-    }
-
-
 //    search
     @Test
+	@DisplayName("Test search method")
     public void shouldReturnItemWithWordInDescriptionWhenSearch() {
         var user = new User();
         user.setId(1L);
@@ -618,6 +590,7 @@ public class ItemServiceUnitTest {
 
 //    search text = null
     @Test
+	@DisplayName("Test search method (text is null)")
     public void shouldReturnEmptyListWhenSearchWhenTextIsNull() {
         var user = new User();
         user.setId(1L);
@@ -667,6 +640,7 @@ public class ItemServiceUnitTest {
 
 //    search text is empty
     @Test
+	@DisplayName("Test search method (text is empty)")
     public void shouldReturnEmptyListWhenSearchWhenTextIsEmpty() {
         var user = new User();
         user.setId(1L);
@@ -717,6 +691,7 @@ public class ItemServiceUnitTest {
 
 //    get by item request
     @Test
+	@DisplayName("Test getByItemRequest method")
     public void shouldReturnItemWhenGetByItemRequest() {
         var user = new User();
         user.setId(1L);
