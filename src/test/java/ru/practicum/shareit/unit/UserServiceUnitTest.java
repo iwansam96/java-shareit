@@ -29,7 +29,7 @@ public class UserServiceUnitTest {
     }
 
     @Test
-	@DisplayName("Test getAll method (empty list)")
+    @DisplayName("Test getAll method (empty list)")
     public void shouldReturnEmptyListWhenGetAllUsers() {
         Mockito.when(userRepository.findAll()).thenReturn(new ArrayList<>());
 
@@ -39,7 +39,7 @@ public class UserServiceUnitTest {
     }
 
     @Test
-	@DisplayName("Test getAll method (1 user)")
+    @DisplayName("Test getAll method (1 user)")
     public void shouldReturnListWithOneUserWhenGetAllUsers() {
         var user = new User();
         var expected = new ArrayList<User>();
@@ -53,7 +53,7 @@ public class UserServiceUnitTest {
     }
 
     @Test
-	@DisplayName("Test getAll method (2 users)")
+    @DisplayName("Test getAll method (2 users)")
     public void shouldReturnListWithTwoUsersWhenGetAllUsers() {
         var user1 = new User();
         user1.setName("user1");
@@ -71,13 +71,13 @@ public class UserServiceUnitTest {
     }
 
     @Test
-	@DisplayName("Test save method throws UserDataIsIncorrectException (user is null)")
+    @DisplayName("Test save method throws UserDataIsIncorrectException (user is null)")
     public void shouldThrowUserDataIsIncorrectExceptionWhenSaveNullUser() {
         Assertions.assertThrows(UserDataIsIncorrectException.class, () -> userService.save(null));
     }
 
     @Test
-	@DisplayName("Test save method throws UserDataIsIncorrectException (user without email)")
+    @DisplayName("Test save method throws UserDataIsIncorrectException (user without email)")
     public void shouldThrowUserDataIsIncorrectExceptionWhenSaveUserWithoutEmail() {
         var user1 = new User();
         user1.setName("user1");
@@ -86,7 +86,7 @@ public class UserServiceUnitTest {
     }
 
     @Test
-	@DisplayName("Test save method")
+    @DisplayName("Test save method")
     public void shouldReturnNewUserWhenSave() {
         var user1 = new User();
         user1.setName("user1");
@@ -98,13 +98,13 @@ public class UserServiceUnitTest {
     }
 
     @Test
-	@DisplayName("Test getById method throws UserNotFoundException (incorrect id)")
+    @DisplayName("Test getById method throws UserNotFoundException (incorrect id)")
     public void shouldThrowUserNotFoundExceptionWhenGetByIdWithIncorrectId() {
         Assertions.assertThrows(UserNotFoundException.class, () -> userService.getById(99L));
     }
 
     @Test
-	@DisplayName("Test getById method")
+    @DisplayName("Test getById method")
     public void shouldReturnOneUserWhenGetById() {
         var user1 = new User();
         user1.setName("user1");
@@ -116,13 +116,13 @@ public class UserServiceUnitTest {
     }
 
     @Test
-	@DisplayName("Test update method throws UserDataIsIncorrectException")
+    @DisplayName("Test update method throws UserDataIsIncorrectException")
     public void shouldThrowUserDataIsIncorrectExceptionWhenUpdateNullUser() {
         Assertions.assertThrows(UserDataIsIncorrectException.class, () -> userService.update(null, 1L));
     }
 
     @Test
-	@DisplayName("Test update method throws UserNotFoundException")
+    @DisplayName("Test update method throws UserNotFoundException")
     public void shouldThrowUserNotFoundExceptionWhenUpdateWithIncorrectId() {
         var user1 = new User();
         user1.setName("user1");
@@ -133,7 +133,7 @@ public class UserServiceUnitTest {
     }
 
     @Test
-	@DisplayName("Test update method")
+    @DisplayName("Test update method")
     public void shouldReturnUpdatedUserWhenUpdate() {
         var user1 = new User();
         user1.setName("user1");

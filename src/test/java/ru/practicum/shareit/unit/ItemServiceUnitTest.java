@@ -49,7 +49,7 @@ public class ItemServiceUnitTest {
 
     //    add userId incorrect
     @Test
-	@DisplayName("Test add method throws UserNotFoundException")
+    @DisplayName("Test add method throws UserNotFoundException")
     public void shouldThrowUserNotFoundExceptionWhenAddItemWithIncorrectUserId() {
         var itemDto = new ItemDto();
         itemDto.setName("itemDto");
@@ -60,7 +60,7 @@ public class ItemServiceUnitTest {
 
     //    add itemDto = null
     @Test
-	@DisplayName("Test add method throws ItemDataIsIncorrectException (itemDto is null)")
+    @DisplayName("Test add method throws ItemDataIsIncorrectException (itemDto is null)")
     public void shouldThrowItemDataIsIncorrectExceptionWhenAddWhenItemDtoIsNull() {
         var user = new User();
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(user));
@@ -69,7 +69,7 @@ public class ItemServiceUnitTest {
 
     //    add new item
     @Test
-	@DisplayName("Test add method")
+    @DisplayName("Test add method")
     public void shouldReturnNewItemWhenAdd() {
         var user = new User();
         user.setId(1L);
@@ -91,7 +91,7 @@ public class ItemServiceUnitTest {
 
     //    add new item name = null
     @Test
-	@DisplayName("Test add method throws ItemDataIsIncorrectException (name is null)")
+    @DisplayName("Test add method throws ItemDataIsIncorrectException (name is null)")
     public void shouldThrowItemDataIsIncorrectExceptionWhenAddWhithNullName() {
         var user = new User();
         user.setId(1L);
@@ -111,7 +111,7 @@ public class ItemServiceUnitTest {
 
     //    add new item description = null
     @Test
-	@DisplayName("Test add method throws ItemDataIsIncorrectException (description is null)")
+    @DisplayName("Test add method throws ItemDataIsIncorrectException (description is null)")
     public void shouldThrowItemDataIsIncorrectExceptionWhenAddWhithNullDescription() {
         var user = new User();
         user.setId(1L);
@@ -131,7 +131,7 @@ public class ItemServiceUnitTest {
 
     //    add new item available = null
     @Test
-	@DisplayName("Test add method throws ItemDataIsIncorrectException (available is null)")
+    @DisplayName("Test add method throws ItemDataIsIncorrectException (available is null)")
     public void shouldThrowItemDataIsIncorrectExceptionWhenAddWhithNullAvailable() {
         var user = new User();
         user.setId(1L);
@@ -152,7 +152,7 @@ public class ItemServiceUnitTest {
 
     //    edit item
     @Test
-	@DisplayName("Test edit method")
+    @DisplayName("Test edit method")
     public void shouldReturnEditedItem() {
         var user = new User();
         user.setId(1L);
@@ -184,7 +184,7 @@ public class ItemServiceUnitTest {
 
     //    edit userId incorrect
     @Test
-	@DisplayName("Test edit method throws ItemEditingByNonOwnerException (edit not owner)")
+    @DisplayName("Test edit method throws ItemEditingByNonOwnerException (edit not owner)")
     public void shouldThrowItemEditingByNonOwnerExceptionWhenEditNotOwner() {
         var user = new User();
         user.setId(1L);
@@ -216,7 +216,7 @@ public class ItemServiceUnitTest {
 
 //    edit itemId incorrect
     @Test
-	@DisplayName("Test edit method throws ItemNotFoundException")
+    @DisplayName("Test edit method throws ItemNotFoundException")
     public void shouldThrowItemNotFoundExceptionWhenEditWithItemIdIsIncorrect() {
         var user = new User();
         user.setId(1L);
@@ -248,7 +248,7 @@ public class ItemServiceUnitTest {
 
 //    edit itemDto = null
     @Test
-	@DisplayName("Test edit method throws ItemDataIsIncorrectException")
+    @DisplayName("Test edit method throws ItemDataIsIncorrectException")
     public void shouldThrowItemDataIsIncorrectExceptionWhenEditWithItemDtoIsNull() {
         var user = new User();
         user.setId(1L);
@@ -280,7 +280,7 @@ public class ItemServiceUnitTest {
 
 //    edit item by not owner
     @Test
-	@DisplayName("Test edit method throws ItemEditingByNonOwnerException")
+    @DisplayName("Test edit method throws ItemEditingByNonOwnerException")
     public void shouldThrowItemEditingByNonOwnerExceptionWhenEditByNotOwner() {
         var user = new User();
         user.setId(1L);
@@ -316,7 +316,7 @@ public class ItemServiceUnitTest {
 
 //    get by id
     @Test
-	@DisplayName("Test getById method")
+    @DisplayName("Test getById method")
     public void shouldReturnItemWhenGetById() {
         var user = new User();
         user.setId(1L);
@@ -359,7 +359,7 @@ public class ItemServiceUnitTest {
 
 //    get by id itemId is incorrect
     @Test
-	@DisplayName("Test getById method throws ItemNotFoundException (incorrect item id)")
+    @DisplayName("Test getById method throws ItemNotFoundException (incorrect item id)")
     public void shouldThrowItemNotFoundExceptionWhenGetByIdWithIncorrectItemid() {
         var user = new User();
         user.setId(1L);
@@ -399,7 +399,7 @@ public class ItemServiceUnitTest {
 
 //    get by id userId is not owner
     @Test
-	@DisplayName("Test getById method (user is not owner)")
+    @DisplayName("Test getById method (user is not owner)")
     public void shouldReturnItemWithoutNextAndLastBookingsWhenGetByIdWithNotOwnerId() {
         var user = new User();
         user.setId(1L);
@@ -441,7 +441,7 @@ public class ItemServiceUnitTest {
 
 //    get by ownerId
     @Test
-	@DisplayName("Test getByOwnerId method")
+    @DisplayName("Test getByOwnerId method")
     public void shouldReturnListWithItemWhenGetByOwnerId() {
         var user = new User();
         user.setId(1L);
@@ -491,7 +491,7 @@ public class ItemServiceUnitTest {
 
 //    get by ownerId userId is incorrect
     @Test
-	@DisplayName("Test getByOwnerId method (userId is incorrect)")
+    @DisplayName("Test getByOwnerId method (userId is incorrect)")
     public void shouldReturnEmptyListWhenGetByOwnerIdWithIncorrectId() {
         var user = new User();
         user.setId(1L);
@@ -539,7 +539,7 @@ public class ItemServiceUnitTest {
 
 //    search
     @Test
-	@DisplayName("Test search method")
+    @DisplayName("Test search method")
     public void shouldReturnItemWithWordInDescriptionWhenSearch() {
         var user = new User();
         user.setId(1L);
@@ -590,7 +590,7 @@ public class ItemServiceUnitTest {
 
 //    search text = null
     @Test
-	@DisplayName("Test search method (text is null)")
+    @DisplayName("Test search method (text is null)")
     public void shouldReturnEmptyListWhenSearchWhenTextIsNull() {
         var user = new User();
         user.setId(1L);
@@ -640,7 +640,7 @@ public class ItemServiceUnitTest {
 
 //    search text is empty
     @Test
-	@DisplayName("Test search method (text is empty)")
+    @DisplayName("Test search method (text is empty)")
     public void shouldReturnEmptyListWhenSearchWhenTextIsEmpty() {
         var user = new User();
         user.setId(1L);
@@ -691,7 +691,7 @@ public class ItemServiceUnitTest {
 
 //    get by item request
     @Test
-	@DisplayName("Test getByItemRequest method")
+    @DisplayName("Test getByItemRequest method")
     public void shouldReturnItemWhenGetByItemRequest() {
         var user = new User();
         user.setId(1L);
