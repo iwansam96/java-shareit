@@ -26,7 +26,7 @@ public class ItemDto {
     private User owner;
 
     @Positive
-    private Long request;
+    private Long requestId;
 
     private Set<Booking> bookings;
 

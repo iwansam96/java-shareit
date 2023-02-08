@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking.dto;
 
-import lombok.Data;
 import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.model.Item;
@@ -8,7 +7,6 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
-@Data
 public class BookingMapper {
     public static BookingDto toBookingDto(Booking booking) {
         if (booking == null)
@@ -35,6 +33,18 @@ public class BookingMapper {
         booking.setEnd(end);
         booking.setBooker(user);
         booking.setStatus(status);
+
+        return booking;
+    }
+
+    public static Booking toBooking(BookingDto bookingDto) {
+        Booking booking = new Booking();
+        booking.setId(bookingDto.getId());
+        booking.setBooker(bookingDto.getBooker());
+        booking.setStart(bookingDto.getStart());
+        booking.setEnd(bookingDto.getEnd());
+        booking.setItem(bookingDto.getItem());
+        booking.setStatus(bookingDto.getStatus());
 
         return booking;
     }
