@@ -30,7 +30,7 @@ public class ItemClient extends BaseClient {
     }
 
     ResponseEntity<Object> edit(Long userId, Long itemId, ItemUpdateDto itemDto) {
-        return patch("/"+itemId, userId, itemDto);
+        return patch("/" + itemId, userId, itemDto);
     }
 
     ResponseEntity<Object> getById(Long itemId, Long userId) {
