@@ -104,6 +104,7 @@ public class BookingServiceImpl implements BookingService {
             bookings = bookingRepository.findBookingsByBooker_IdAndStatusInOrderByStartDesc(PageRequest.of(page, size), userId,
                     BookingStatus.stateToStatuses(state));
 
+        System.out.println(bookings.get(0).getBooker());
         return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
     }
 

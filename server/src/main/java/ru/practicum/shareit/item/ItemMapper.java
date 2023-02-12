@@ -5,7 +5,8 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.item.model.Item;
 
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 public class ItemMapper {
@@ -25,12 +26,14 @@ public class ItemMapper {
 
         if (Objects.equals(item.getOwner().getId(), userId)) {
             Optional<Booking> last = bookings.stream()
-                    .filter(nextBooking -> nextBooking.getEnd().isBefore(LocalDateTime.now()))
+                    .filter(nextBooking -> nextBooking.getEnd().isBefore(ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime()))
+//                    .filter(nextBooking -> nextBooking.getEnd().isBefore(LocalDateTime.now()))
                     .max(Comparator.comparing(Booking::getEnd));
             itemDto.setLastBooking(BookingMapper.toBookingDto(last.orElse(null)));
 
             Optional<Booking> next = bookings.stream()
-                    .filter(nextBooking -> nextBooking.getStart().isAfter(LocalDateTime.now()))
+                    .filter(nextBooking -> nextBooking.getStart().isAfter(ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime()))
+//                    .filter(nextBooking -> nextBooking.getStart().isAfter(LocalDateTime.now()))
                     .min(Comparator.comparing(Booking::getStart));
             itemDto.setNextBooking(BookingMapper.toBookingDto(next.orElse(null)));
         }
