@@ -45,6 +45,4 @@ public class ItemClient extends BaseClient {
         String path = "/search?text=" + text + "&from=" + from + "&size=" + size;
         return get(path);
     }
-
-//    ResponseEntity<Object> getByItemRequest(ItemRequest itemRequest)
 }
