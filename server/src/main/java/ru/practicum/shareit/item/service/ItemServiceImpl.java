@@ -16,7 +16,6 @@ import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -103,10 +102,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> search(String text, Integer from, Integer size) {
-        if (text == null || text.isBlank()) {
-            return new ArrayList<>();
-        }
-
         int page = from / size;
 
         return itemRepository.findItemsByDescriptionContainingIgnoreCaseAndAvailableIsTrue(PageRequest.of(page, size), text.toLowerCase()).stream()

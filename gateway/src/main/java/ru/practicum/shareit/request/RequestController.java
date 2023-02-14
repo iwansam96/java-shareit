@@ -41,8 +41,8 @@ public class RequestController {
     @GetMapping("/all")
     public ResponseEntity<Object> getAllByPages(
             @Valid @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-            @Valid @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
-            @Valid @Positive @RequestParam(required = false, defaultValue = "10") Integer size
+            @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+            @Valid @Positive @RequestParam(defaultValue = "10") Integer size
     ) {
         log.info("GET /requests/all?from={}&size={}", from, size);
         return requestClient.getAllByPages(userId, from, size);

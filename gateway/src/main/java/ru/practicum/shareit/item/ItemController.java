@@ -11,6 +11,7 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemUpdateDto;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -47,18 +48,17 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<Object> getByOwnerId(@Valid @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
-                                      @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
-                                      @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
+                                      @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+                                      @Positive @RequestParam(defaultValue = "10") Integer size) {
         log.info("Get items bi owner {}, from={}, size={}", userId, from, size);
 
         return itemClient.getByOwnerId(userId, from, size);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Object> search(@RequestParam String text,
-                                @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
-                                @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
-        System.out.println(text);
+    public ResponseEntity<Object> search(@Valid @NotBlank @RequestParam String text,
+                                @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+                                @Positive @RequestParam(defaultValue = "10") Integer size) {
         log.info("Get items by search text={}, from={}, size={}", text, from, size);
 
         return itemClient.search(text, from, size);

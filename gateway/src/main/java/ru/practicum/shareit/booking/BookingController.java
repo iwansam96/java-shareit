@@ -63,8 +63,8 @@ public class BookingController {
     @GetMapping("/owner")
     public ResponseEntity<Object> getByItemsByUserId(@Valid @NotNull @Positive @RequestHeader("X-Sharer-User-Id") Long userId,
                              @RequestParam(name = "state", defaultValue = "all") String stateParam,
-                             @Valid @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
-                             @Valid @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
+                             @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+                             @Valid @Positive @RequestParam(defaultValue = "10") Integer size) {
         log.info("Get bookings /owner?state={}, userId={}, from={}, size={}", stateParam, userId, from, size);
 
         BookingState state = BookingState.from(stateParam)
